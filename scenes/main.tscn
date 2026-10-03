@@ -570,7 +570,7 @@ transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 
 mesh = SubResource("Mesh_Roof")
 
 [node name="TeaStall" type="StaticBody3D" parent="."]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 6.5, 0, 2.5)
+transform = Transform3D(0.09659, 0, -0.02588, 0, 0.1, 0, 0.02588, 0, 0.09659, 6.5, 0, 2.5)
 collision_layer = 1
 collision_mask = 3
 
