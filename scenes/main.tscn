@@ -1,10 +1,12 @@
 [gd_scene load_steps=37 format=3]
 
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main_script"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/old_man.tscn" id="2_old_man"]
 [ext_resource type="PackedScene" path="res://scenes/chicken.tscn" id="3_chicken"]
 [ext_resource type="PackedScene" path="res://scenes/cave_note.tscn" id="4_cave_note"]
 [ext_resource type="PackedScene" path="res://scenes/ending_table.tscn" id="5_ending_table"]
+[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="6_pause_menu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 sky_top_color = Color(0.25, 0.55, 0.92, 1)
@@ -456,6 +458,7 @@ material = SubResource("Mat_Turquoise")
 size = Vector3(0.95, 0.80, 0.02)
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_main_script")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1")
@@ -1063,3 +1066,5 @@ transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 3.8, 0, 1.
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 12)
+
+[node name="PauseMenu" parent="." groups=["pause_menu"] instance=ExtResource("6_pause_menu")]

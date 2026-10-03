@@ -1,0 +1,397 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu_script"]
+[ext_resource type="PackedScene" path="res://scenes/settings_modal.tscn" id="2_settings"]
+[ext_resource type="Texture2D" path="res://assets/start_background.png" id="3_start_bg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_StartNormal"]
+bg_color = Color(0.98, 0.72, 0.08, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.08, 0.04, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 8
+shadow_offset = Vector2(0, 4)
+content_margin_left = 20.0
+content_margin_top = 16.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_StartHover"]
+bg_color = Color(1, 0.82, 0.20, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.08, 0.04, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(1, 0.72, 0.08, 0.65)
+shadow_size = 12
+shadow_offset = Vector2(0, 4)
+content_margin_left = 20.0
+content_margin_top = 16.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_StartPressed"]
+bg_color = Color(0.88, 0.60, 0.04, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.08, 0.04, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+content_margin_left = 20.0
+content_margin_top = 16.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_DarkNormal"]
+bg_color = Color(0.11, 0.13, 0.17, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.24, 0.28, 0.36, 0.95)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.40)
+shadow_size = 6
+shadow_offset = Vector2(0, 3)
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_DarkHover"]
+bg_color = Color(0.18, 0.22, 0.30, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.82, 0.22, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(1, 0.75, 0.15, 0.55)
+shadow_size = 10
+shadow_offset = Vector2(0, 4)
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_DarkPressed"]
+bg_color = Color(0.08, 0.10, 0.14, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.82, 0.22, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_ModalCard"]
+bg_color = Color(0.98, 0.96, 0.92, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.10, 0.08, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 12
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_GoldBadge"]
+bg_color = Color(0.96, 0.72, 0.16, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.12, 0.10, 0.08, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 16.0
+content_margin_top = 4.0
+content_margin_right = 16.0
+content_margin_bottom = 4.0
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu_script")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MenuUI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundImage" type="TextureRect" parent="CanvasLayer/MenuUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_start_bg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LeftColumn" type="Control" parent="CanvasLayer/MenuUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Logo" type="Control" parent="CanvasLayer/MenuUI/LeftColumn"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 68.0
+offset_top = 40.0
+offset_right = 490.0
+offset_bottom = 220.0
+mouse_filter = 2
+
+[node name="StoryCard" type="Control" parent="CanvasLayer/MenuUI/LeftColumn"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 68.0
+offset_top = 225.0
+offset_right = 490.0
+offset_bottom = 375.0
+mouse_filter = 2
+
+[node name="Buttons" type="VBoxContainer" parent="CanvasLayer/MenuUI/LeftColumn"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 114.0
+offset_top = 388.0
+offset_right = 464.0
+offset_bottom = 665.0
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="StartButton" type="Button" parent="CanvasLayer/MenuUI/LeftColumn/Buttons"]
+custom_minimum_size = Vector2(350, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.04, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.1, 0.06, 0.02, 1)
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("StyleBox_StartNormal")
+theme_override_styles/hover = SubResource("StyleBox_StartHover")
+theme_override_styles/pressed = SubResource("StyleBox_StartPressed")
+theme_override_styles/focus = SubResource("StyleBox_StartHover")
+text = "▶   START GAME"
+
+[node name="SettingsButton" type="Button" parent="CanvasLayer/MenuUI/LeftColumn/Buttons"]
+custom_minimum_size = Vector2(300, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.88, 0.28, 1)
+theme_override_colors/font_pressed_color = Color(0.9, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBox_DarkNormal")
+theme_override_styles/hover = SubResource("StyleBox_DarkHover")
+theme_override_styles/pressed = SubResource("StyleBox_DarkPressed")
+theme_override_styles/focus = SubResource("StyleBox_DarkHover")
+text = "⚙   SETTINGS"
+
+[node name="CreditsButton" type="Button" parent="CanvasLayer/MenuUI/LeftColumn/Buttons"]
+custom_minimum_size = Vector2(300, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.88, 0.28, 1)
+theme_override_colors/font_pressed_color = Color(0.9, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBox_DarkNormal")
+theme_override_styles/hover = SubResource("StyleBox_DarkHover")
+theme_override_styles/pressed = SubResource("StyleBox_DarkPressed")
+theme_override_styles/focus = SubResource("StyleBox_DarkHover")
+text = "📖   CREDITS"
+
+[node name="ExitButton" type="Button" parent="CanvasLayer/MenuUI/LeftColumn/Buttons"]
+custom_minimum_size = Vector2(300, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.88, 0.28, 1)
+theme_override_colors/font_pressed_color = Color(0.9, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBox_DarkNormal")
+theme_override_styles/hover = SubResource("StyleBox_DarkHover")
+theme_override_styles/pressed = SubResource("StyleBox_DarkPressed")
+theme_override_styles/focus = SubResource("StyleBox_DarkHover")
+text = "➔   EXIT"
+
+[node name="SettingsModal" parent="CanvasLayer" instance=ExtResource("2_settings")]
+visible = false
+layout_mode = 1
+
+[node name="CreditsModal" type="PanelContainer" parent="CanvasLayer"]
+visible = false
+custom_minimum_size = Vector2(460, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.0
+offset_top = -210.0
+offset_right = 230.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_ModalCard")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CreditsModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 22
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CreditsModal/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="CanvasLayer/CreditsModal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.12, 0.1, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBox_GoldBadge")
+text = "★ CREDITS ★"
+horizontal_alignment = 1
+
+[node name="CreditsContent" type="RichTextLabel" parent="CanvasLayer/CreditsModal/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 240)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.15, 0.13, 0.12, 1)
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 13
+bbcode_enabled = true
+text = "[center][b]LENAL[/b]
+Developed for [b]TGC Game Jam 2026[/b]
+
+[b]Team:[/b]
+Winter Soldiers
+
+[b]3D Animations & Character Rig:[/b]
+Universal Animation Library
+Creator: Quaternius (CC0 1.0)
+https://quaternius.itch.io/universal-animation-library
+
+[b]Audio & Music:[/b]
+Self-Contained Procedural Sound & Music Engine (CC0 1.0)
+
+[b]Built with:[/b]
+Godot Engine 4 (GL Compatibility Web/Desktop)[/center]"
+
+[node name="CreditsCloseButton" type="Button" parent="CanvasLayer/CreditsModal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.1, 0.1, 0.1, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBox_StartNormal")
+theme_override_styles/hover = SubResource("StyleBox_StartHover")
+text = "CLOSE"
+
+[node name="ExitDialog" type="PanelContainer" parent="CanvasLayer"]
+visible = false
+custom_minimum_size = Vector2(340, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -90.0
+offset_right = 170.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_ModalCard")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ExitDialog"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ExitDialog/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ExitTitle" type="Label" parent="CanvasLayer/ExitDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.10, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "Thanks for playing LENAL!"
+horizontal_alignment = 1
+
+[node name="ExitText" type="Label" parent="CanvasLayer/ExitDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.32, 0.28, 1)
+theme_override_font_sizes/font_size = 13
+text = "You can close this browser tab anytime."
+horizontal_alignment = 1
+
+[node name="ExitCloseButton" type="Button" parent="CanvasLayer/ExitDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.1, 0.1, 0.1, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBox_StartNormal")
+theme_override_styles/hover = SubResource("StyleBox_StartHover")
+text = "BACK TO TITLE"
