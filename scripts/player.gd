@@ -21,6 +21,7 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity", 1
 var current_interactable: Node = null
 var status_timer: float = 0.0
 var jump_buffer: float = 0.0
+var footstep_timer: float = 0.0
 
 func _ready() -> void:
 	_ensure_input_mappings()
@@ -29,6 +30,11 @@ func _ready() -> void:
 		interact_prompt.visible = false
 	if status_label:
 		status_label.text = "LENAL Prototype - WASD: Move | Mouse: Look | Space: Jump | E: Interact"
+	if Engine.has_singleton("GameState") or has_node("/root/GameState"):
+		GameState.objective_updated.connect(_on_objective_updated)
+
+func _on_objective_updated(text: String) -> void:
+	show_status_message("Objective: " + text, 5.0)
 
 func _ensure_input_mappings() -> void:
 	var defaults = {
@@ -118,9 +124,15 @@ func _physics_process(delta: float) -> void:
 		var bob_time = Time.get_ticks_msec() * 0.012
 		mesh_root.position.y = abs(sin(bob_time)) * 0.08
 		mesh_root.rotation.z = sin(bob_time * 0.5) * 0.04
+		
+		footstep_timer += delta
+		if footstep_timer >= 0.35:
+			footstep_timer = 0.0
+			SFX.play_footstep()
 	else:
 		mesh_root.position.y = move_toward(mesh_root.position.y, 0.0, delta * 2.0)
 		mesh_root.rotation.z = move_toward(mesh_root.rotation.z, 0.0, delta * 2.0)
+		footstep_timer = 0.28
 
 	_update_interaction()
 	_update_hud(delta)

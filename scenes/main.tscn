@@ -2,6 +2,9 @@
 
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/old_man.tscn" id="2_old_man"]
+[ext_resource type="PackedScene" path="res://scenes/chicken.tscn" id="3_chicken"]
+[ext_resource type="PackedScene" path="res://scenes/cave_note.tscn" id="4_cave_note"]
+[ext_resource type="PackedScene" path="res://scenes/ending_table.tscn" id="5_ending_table"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 sky_top_color = Color(0.35, 0.62, 0.95, 1)
@@ -187,6 +190,57 @@ roughness = 0.9
 [sub_resource type="BoxMesh" id="Mesh_CaveVoid"]
 material = SubResource("Mat_CaveVoid")
 size = Vector3(2.4, 3.2, 1.0)
+
+[sub_resource type="StandardMaterial3D" id="Mat_CaveDark"]
+albedo_color = Color(0.14, 0.13, 0.12, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="Mesh_CaveTunnelFloor"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(4.5, 0.2, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveTunnelWall"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(1.0, 4.5, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_CaveTunnelWall"]
+size = Vector3(1.0, 4.5, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveTunnelCeiling"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(6.5, 0.6, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveChamberFloor"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(14, 0.2, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveChamberWall_NS"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(14, 5.0, 1.0)
+
+[sub_resource type="BoxShape3D" id="Shape_CaveChamberWall_NS"]
+size = Vector3(14, 5.0, 1.0)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveChamberWall_Half"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(5.5, 5.0, 1.0)
+
+[sub_resource type="BoxShape3D" id="Shape_CaveChamberWall_Half"]
+size = Vector3(5.5, 5.0, 1.0)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveChamberWall_EW"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(1.0, 5.0, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_CaveChamberWall_EW"]
+size = Vector3(1.0, 5.0, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveChamberCeiling"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(16, 0.6, 14)
+
+[sub_resource type="BoxShape3D" id="Shape_CaveRockSide"]
+size = Vector3(3.5, 4.5, 4.0)
 
 [node name="Main" type="Node3D"]
 
@@ -417,8 +471,16 @@ collision_layer = 1
 collision_mask = 3
 
 [node name="CaveArchCol" type="CollisionShape3D" parent="CaveEntrance"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
-shape = SubResource("Shape_House2")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0, 0)
+shape = SubResource("Shape_Crate")
+
+[node name="RockLeftCol" type="CollisionShape3D" parent="CaveEntrance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 2.2, 0)
+shape = SubResource("Shape_CaveRockSide")
+
+[node name="RockRightCol" type="CollisionShape3D" parent="CaveEntrance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 2.2, 0)
+shape = SubResource("Shape_CaveRockSide")
 
 [node name="RockLeft" type="MeshInstance3D" parent="CaveEntrance"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 2.5, 0)
@@ -432,9 +494,115 @@ mesh = SubResource("Mesh_House2_Body")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0, 0)
 mesh = SubResource("Mesh_Roof")
 
-[node name="CaveVoid" type="MeshInstance3D" parent="CaveEntrance"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0.5)
-mesh = SubResource("Mesh_CaveVoid")
+[node name="CaveInterior" type="Node3D" parent="."]
+
+[node name="TunnelFloor" type="MeshInstance3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.05, -27)
+mesh = SubResource("Mesh_CaveTunnelFloor")
+
+[node name="TunnelWallLeft" type="StaticBody3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 2.25, -27)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Col" type="CollisionShape3D" parent="CaveInterior/TunnelWallLeft"]
+shape = SubResource("Shape_CaveTunnelWall")
+
+[node name="Mesh" type="MeshInstance3D" parent="CaveInterior/TunnelWallLeft"]
+mesh = SubResource("Mesh_CaveTunnelWall")
+
+[node name="TunnelWallRight" type="StaticBody3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 2.25, -27)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Col" type="CollisionShape3D" parent="CaveInterior/TunnelWallRight"]
+shape = SubResource("Shape_CaveTunnelWall")
+
+[node name="Mesh" type="MeshInstance3D" parent="CaveInterior/TunnelWallRight"]
+mesh = SubResource("Mesh_CaveTunnelWall")
+
+[node name="TunnelCeiling" type="MeshInstance3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 4.3, -27)
+mesh = SubResource("Mesh_CaveTunnelCeiling")
+
+[node name="ChamberFloor" type="MeshInstance3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.05, -38)
+mesh = SubResource("Mesh_CaveChamberFloor")
+
+[node name="ChamberWallNorth" type="StaticBody3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.5, -44)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Col" type="CollisionShape3D" parent="CaveInterior/ChamberWallNorth"]
+shape = SubResource("Shape_CaveChamberWall_NS")
+
+[node name="Mesh" type="MeshInstance3D" parent="CaveInterior/ChamberWallNorth"]
+mesh = SubResource("Mesh_CaveChamberWall_NS")
+
+[node name="ChamberWallSouthL" type="StaticBody3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 2.5, -33)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Col" type="CollisionShape3D" parent="CaveInterior/ChamberWallSouthL"]
+shape = SubResource("Shape_CaveChamberWall_Half")
+
+[node name="Mesh" type="MeshInstance3D" parent="CaveInterior/ChamberWallSouthL"]
+mesh = SubResource("Mesh_CaveChamberWall_Half")
+
+[node name="ChamberWallSouthR" type="StaticBody3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0, 2.5, -33)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Col" type="CollisionShape3D" parent="CaveInterior/ChamberWallSouthR"]
+shape = SubResource("Shape_CaveChamberWall_Half")
+
+[node name="Mesh" type="MeshInstance3D" parent="CaveInterior/ChamberWallSouthR"]
+mesh = SubResource("Mesh_CaveChamberWall_Half")
+
+[node name="ChamberWallWest" type="StaticBody3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 2.5, -38)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Col" type="CollisionShape3D" parent="CaveInterior/ChamberWallWest"]
+shape = SubResource("Shape_CaveChamberWall_EW")
+
+[node name="Mesh" type="MeshInstance3D" parent="CaveInterior/ChamberWallWest"]
+mesh = SubResource("Mesh_CaveChamberWall_EW")
+
+[node name="ChamberWallEast" type="StaticBody3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 2.5, -38)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Col" type="CollisionShape3D" parent="CaveInterior/ChamberWallEast"]
+shape = SubResource("Shape_CaveChamberWall_EW")
+
+[node name="Mesh" type="MeshInstance3D" parent="CaveInterior/ChamberWallEast"]
+mesh = SubResource("Mesh_CaveChamberWall_EW")
+
+[node name="ChamberCeiling" type="MeshInstance3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 4.8, -38)
+mesh = SubResource("Mesh_CaveChamberCeiling")
+
+[node name="CaveLight" type="OmniLight3D" parent="CaveInterior"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.8, -37)
+light_color = Color(0.28, 0.55, 0.95, 1)
+light_energy = 1.0
+omni_range = 14.0
+
+[node name="CaveNote" parent="CaveInterior" instance=ExtResource("4_cave_note")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.05, -38.5)
+
+[node name="Chicken" parent="." instance=ExtResource("3_chicken")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.2, 0.05, -1.8)
+
+[node name="EndingTable" parent="." instance=ExtResource("5_ending_table")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 3.8, 0, 1.2)
 
 [node name="OldMan" parent="." instance=ExtResource("2_old_man")]
 transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 3.8, 0, 1.2)

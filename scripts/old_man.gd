@@ -11,8 +11,8 @@ signal dialogue_finished
 @onready var objective_label: Label = $DialogueUI/ObjectivePanel/MarginContainer/HBoxContainer/ObjectiveText
 @onready var visual_root: Node3D = $VisualRoot
 
-# Hardcoded conversation sequence requested
-var conversation: Array = [
+# Conversation 1: Chicken missing
+var conv_initial: Array = [
 	{"speaker": "OLD MAN", "text": "Beta, I need your help."},
 	{"speaker": "PLAYER", "text": "What happened?"},
 	{"speaker": "OLD MAN", "text": "My chicken is missing."},
@@ -22,35 +22,79 @@ var conversation: Array = [
 	{"speaker": "OLD MAN", "text": "Exactly."}
 ]
 
+# Conversation 2: Lantern returned -> Go to cave
+var conv_lantern_returned: Array = [
+	{"speaker": "OLD MAN", "text": "Ah. You found it."},
+	{"speaker": "PLAYER", "text": "Your chicken stole it."},
+	{"speaker": "OLD MAN", "text": "Forget that."},
+	{"speaker": "PLAYER", "text": "What now?"},
+	{"speaker": "OLD MAN", "text": "Go to the cave."},
+	{"speaker": "PLAYER", "text": "Why?"},
+	{"speaker": "OLD MAN", "text": "You'll understand."}
+]
+
+var active_conversation: Array = []
+var conversation: Array = [] # Kept for backward compatibility with tests
 var current_line_idx: int = -1
 var is_talking: bool = false
 var has_completed_dialogue: bool = false
+var has_completed_cave_dialogue: bool = false
 var current_player: Node = null
 
 func _ready() -> void:
 	add_to_group("interactable")
+	conversation = conv_initial
 	if dialogue_panel:
 		dialogue_panel.visible = false
 	if objective_panel:
 		objective_panel.visible = false
 
-func _process(_delta: float) -> void:
-	# Subtle idle breathing animation
+	# Connect to GameState signals
+	if Engine.has_singleton("GameState") or has_node("/root/GameState"):
+		GameState.objective_updated.connect(_on_objective_updated)
+		GameState.state_changed.connect(_on_state_changed)
+
+func _on_objective_updated(text: String) -> void:
+	if objective_label:
+		objective_label.text = text
+	if objective_panel:
+		objective_panel.visible = true
+
+func _on_state_changed(new_state: GameState.State) -> void:
+	if new_state == GameState.State.CAVE_NOTE_FOUND or new_state == GameState.State.GAME_OVER:
+		# Old Man disappears!
+		hide_old_man()
+
+func hide_old_man() -> void:
 	if visual_root:
+		visual_root.visible = false
+	collision_layer = 0
+	remove_from_group("interactable")
+
+func _process(_delta: float) -> void:
+	if visual_root and visual_root.visible:
 		var time = Time.get_ticks_msec() * 0.002
 		visual_root.position.y = sin(time) * 0.02
 
 func get_interact_text() -> String:
-	if not has_completed_dialogue:
-		return "Talk to Old Man"
+	if not visual_root or not visual_root.visible:
+		return ""
 	return "Talk to Old Man"
 
 func interact(player: Node) -> String:
 	current_player = player
+	
 	if not is_talking:
-		if not has_completed_dialogue:
-			start_dialogue()
+		if GameState.current_state == GameState.State.START:
+			start_conversation(conv_initial)
 			return ""
+		elif GameState.current_state == GameState.State.CHICKEN_QUEST:
+			return "Old Man: 'Go on beta, find that lantern-stealing chicken!'"
+		elif GameState.current_state == GameState.State.LANTERN_FOUND:
+			start_conversation(conv_lantern_returned)
+			return ""
+		elif GameState.current_state == GameState.State.CAVE_QUEST:
+			return "Old Man: 'What are you waiting for? Go to the cave!'"
 		else:
 			return "Old Man: 'Go on beta, find that lantern-stealing chicken!'"
 	else:
@@ -61,7 +105,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not is_talking:
 		return
 	
-	# Advance dialogue on E, Space, or Left Mouse Click
 	var is_advancing = false
 	if event.is_action_pressed("interact") or event.is_action_pressed("jump"):
 		is_advancing = true
@@ -75,6 +118,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func start_dialogue() -> void:
+	# Fallback / backward compat
+	start_conversation(conv_initial)
+
+func start_conversation(conv: Array) -> void:
+	SFX.play_interact()
+	active_conversation = conv
+	conversation = conv # sync for tests
 	is_talking = true
 	current_line_idx = 0
 	if dialogue_panel:
@@ -83,22 +133,22 @@ func start_dialogue() -> void:
 
 func advance_dialogue() -> void:
 	current_line_idx += 1
-	if current_line_idx < conversation.size():
+	if current_line_idx < active_conversation.size():
 		_display_current_line()
 	else:
 		end_dialogue()
 
 func _display_current_line() -> void:
-	if current_line_idx < 0 or current_line_idx >= conversation.size():
+	if current_line_idx < 0 or current_line_idx >= active_conversation.size():
 		return
 		
-	var item = conversation[current_line_idx]
+	var item = active_conversation[current_line_idx]
 	if speaker_label:
 		speaker_label.text = item["speaker"]
 		if item["speaker"] == "OLD MAN":
-			speaker_label.add_theme_color_override("font_color", Color(1.0, 0.78, 0.25)) # Marigold/Orange
+			speaker_label.add_theme_color_override("font_color", Color(1.0, 0.78, 0.25))
 		else:
-			speaker_label.add_theme_color_override("font_color", Color(0.4, 0.8, 1.0)) # Cyan
+			speaker_label.add_theme_color_override("font_color", Color(0.4, 0.8, 1.0))
 	
 	if content_label:
 		content_label.text = item["text"]
@@ -108,16 +158,24 @@ func _display_current_line() -> void:
 
 func end_dialogue() -> void:
 	is_talking = false
-	has_completed_dialogue = true
-	
 	if dialogue_panel:
 		dialogue_panel.visible = false
 	
-	# Show requested objective
-	if objective_panel and objective_label:
-		objective_label.text = "Find the chicken."
-		objective_panel.visible = true
+	if active_conversation == conv_initial:
+		has_completed_dialogue = true
+		GameState.set_state(GameState.State.CHICKEN_QUEST)
+		if objective_panel and objective_label:
+			objective_label.text = "Find the chicken."
+			objective_panel.visible = true
+		if current_player and current_player.has_method("show_status_message"):
+			current_player.show_status_message("New Objective: Find the chicken.", 4.0)
+	elif active_conversation == conv_lantern_returned:
+		has_completed_cave_dialogue = true
+		GameState.set_state(GameState.State.CAVE_QUEST)
+		if objective_panel and objective_label:
+			objective_label.text = "Go to the cave."
+			objective_panel.visible = true
+		if current_player and current_player.has_method("show_status_message"):
+			current_player.show_status_message("New Objective: Go to the cave.", 4.0)
 	
 	dialogue_finished.emit()
-	if current_player and current_player.has_method("show_status_message"):
-		current_player.show_status_message("New Objective: Find the chicken.", 4.0)
