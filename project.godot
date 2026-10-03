@@ -7,7 +7,7 @@ config_version=5
 [application]
 
 config/name="LENAL"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.3", "gl_compatibility")
 config/icon="res://icon.svg"
 
@@ -21,7 +21,7 @@ SFX="*res://scripts/sfx.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep"
 
 [input]
 

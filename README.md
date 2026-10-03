@@ -1,72 +1,110 @@
-# 🐔 LENAL
+# 🐔 LENAL — Stylized Indian Comic Adventure
 
-A comedic 3D Indian village adventure built with **Godot 4**.
+A complete, stylized 3D indie adventure game set in a vibrant Indian village, built with **Godot 4**.
 
-> **"One small Indian village → one NPC → one chicken → one short chase → one cave → one ridiculous twist."**
+> *"A tiny adventure. A missing chicken. One strange cave."*
 
 ---
 
-## 🎮 The Gameplay Loop
+## 🏆 Project Info & Credits
+
+- **Game**: LENAL
+- **Event**: Developed for **TGC Game Jam 2026**
+- **Team**: **Winter Soldiers**
+- **Engine**: Godot Engine 4 (GL Compatibility renderer for browser & desktop)
+- **Visuals**: Stylized Indian comic aesthetic with warm cinematic daytime lighting
+- **Character Rig & Animations**: 
+  - [Universal Animation Library (Standard)](https://quaternius.itch.io/universal-animation-library)
+  - Creator: **Quaternius** (CC0 1.0 Universal Public Domain)
+- **Audio & Music**: Self-contained procedural synthesis engine (`res://scripts/sfx.gd`), zero external audio dependencies (CC0 1.0)
+
+---
+
+## 🎮 The Complete Game Flow
 
 ```
-START
+MAIN MENU (Title, Start, Settings, Credits, Exit)
   ↓
-Indian Village (Houses, tea stall, tree chabutra, charpai, matkas, crates)
+INDIAN VILLAGE
+(Houses with tiled roofs, tea stall with banner & awning, scooter,
+ water tank tower, banyan tree & chabutra, temple gopuram, clay matkas, charpai)
   ↓
-Talk to Old Man: "Beta, I need your help... My chicken stole my lantern."
+TALK TO OLD MAN (Comic speech bubble UI, character movement locked)
+"Beta, I need your help... My chicken is missing. She stole my lantern."
   ↓
-Follow / Chase the Chicken (scripted waddling run across the village)
+FOLLOW / CHASE THE CHICKEN (Animated waddling run across the village)
   ↓
-Catch Chicken & Take Lantern: "YOU GOT THE LANTERN."
+CATCH CHICKEN & RETRIEVE LANTERN: "YOU GOT THE LANTERN."
   ↓
-Return to Old Man: "Forget that... Go to the cave. You'll understand."
+RETURN TO OLD MAN
+"Ah. You found it... Forget that. Go to the cave. You'll understand."
   ↓
-Walk into Tiny Cave (dark rocky tunnel leading into a glowing crystal chamber)
+EXPLORE THE CAVE (Ambient cave music cross-fade, glowing crystal chamber)
   ↓
-Find Note: "YOUR WORK IS TO GO BACK TO THE OLD MAN."
+FIND CAVE NOTE: "YOUR WORK IS TO GO BACK TO THE OLD MAN."
   ↓
-Return to Village: Old Man has disappeared!
+RETURN TO VILLAGE: Old Man has mysteriously vanished!
   ↓
-Table with $5 & Note: 1-second dramatic suspense pause + camera zoom
+ENDING TABLE (Dramatic camera zoom + 1-second suspense pause)
   ↓
-"TAKE YOUR MONEY NOOB!" (Comedic brass fanfare)
+COMIC REVEAL: "TAKE YOUR MONEY NOOB!"
   ↓
-★ QUEST COMPLETE ★ (Reward: $5 — THANKS FOR PLAYING)
+VICTORY CARD (★ LENAL: QUEST COMPLETE ★ | REWARD: ₹500 ($5) | PLAY AGAIN / MAIN MENU)
 ```
 
 ---
 
 ## 🕹️ Controls
 
-| Key | Action |
+| Key / Input | Action |
 | :--- | :--- |
-| **W, A, S, D** | Move |
-| **Mouse** | Camera Look |
-| **Space** | Jump |
-| **E** | Interact |
-| **Esc** | Toggle Mouse Capture |
+| **W, A, S, D** | Move Character (Smooth acceleration & deceleration) |
+| **Shift (Hold)** | Run / Sprint |
+| **Space** | Jump (with Jump Start, Fall & Land animations) |
+| **Mouse** | Orbit Camera (Smooth 3rd-person SpringArm3D with building collision) |
+| **E / Space / Left Click** | Interact / Advance Comic Dialogue |
+| **Esc** | Pause Menu (Resume, Restart, Settings, Main Menu) |
 
 ---
 
-## 🛠️ Tech Stack
+## ⚙️ Features
 
-- **Engine**: Godot 4.3+ (GL Compatibility renderer)
-- **Language**: GDScript
-- **Audio**: Procedurally synthesized retro SFX (`AudioStreamWAV` generated at runtime: footsteps, chicken clucks, lantern chime, cave drone, dramatic sting, comedic fanfare)
-- **Art**: Stylized 3D primitives
+1. **Third-Person Movement & Camera**:
+   - `CharacterBody3D` with smooth acceleration, deceleration, and direction rotation.
+   - Rigged 3D humanoid using Quaternius Universal Animation Library (`UAL1_Standard.glb`).
+   - `SpringArm3D` camera with ray-casting wall collision prevention.
+2. **Comic Dialogue UI**:
+   - Off-white cream card with rounded 3px dark borders and drop shadows.
+   - Gold speaker badge ("OLD MAN" / "PLAYER").
+   - Slide/fade entrance tween and player movement lock during conversation.
+3. **Audio & Dynamic Music**:
+   - Procedural runtime synthesis for footsteps, jumps, landings, chicken clucks, lantern pickup, UI clicks, and dramatic stings.
+   - Distinct procedural ambient music loops for Main Menu, Village, and Cave.
+   - Master, Music, SFX volume buses and mouse sensitivity sliders in Settings.
+4. **Complete Restart System**:
+   - Pause menu (ESC) with instant clean reset of player, quest states, NPC, cave, and UI.
 
 ---
 
 ## 🚀 Running the Game
 
-Open this project in Godot 4 or run from the command line:
+Run the project directly:
+
+```powershell
+.\play.bat
+```
+
+Or run via Godot CLI:
 
 ```powershell
 godot
 ```
 
-Or run automated integration tests:
+Or run automated feature verification:
 
 ```powershell
 godot --headless --script tests/test_full_game_loop.gd
+godot --headless --script tests/test_full_game_features.gd
+godot --headless --script tests/test_ual1_integration.gd
 ```
+

@@ -9,6 +9,7 @@ extends StaticBody3D
 @onready var joke_label: Label = $CanvasLayer/JokePanel/MarginContainer/VBoxContainer/JokeLabel
 @onready var victory_panel: PanelContainer = $CanvasLayer/VictoryPanel
 @onready var play_again_btn: Button = $CanvasLayer/VictoryPanel/MarginContainer/VBoxContainer/PlayAgainButton
+@onready var main_menu_btn: Button = $CanvasLayer/VictoryPanel/MarginContainer/VBoxContainer/MainMenuButton
 
 var is_active: bool = false
 var has_interacted: bool = false
@@ -23,16 +24,19 @@ func _ready() -> void:
 		victory_panel.visible = false
 	if play_again_btn:
 		play_again_btn.pressed.connect(_on_play_again_pressed)
+	if main_menu_btn:
+		main_menu_btn.pressed.connect(_on_main_menu_pressed)
 
 	# Initial hidden state until cave note is read
 	set_active(false)
 	
-	if Engine.has_singleton("GameState") or has_node("/root/GameState"):
-		GameState.state_changed.connect(_on_state_changed)
-		if GameState.current_state >= GameState.State.CAVE_NOTE_FOUND:
+	var gs = get_node_or_null("/root/GameState")
+	if gs and gs.has_signal("state_changed"):
+		gs.state_changed.connect(_on_state_changed)
+		if gs.current_state >= GameState.State.CAVE_NOTE_FOUND:
 			set_active(true)
 
-func _on_state_changed(new_state: GameState.State) -> void:
+func _on_state_changed(new_state: int) -> void:
 	if new_state == GameState.State.CAVE_NOTE_FOUND:
 		set_active(true)
 
@@ -77,15 +81,17 @@ func _start_ending_sequence() -> void:
 	is_sequence_playing = true
 	has_interacted = true
 	
-	# Lock player movement if possible
+	# Lock player movement
 	if current_player:
+		if "can_move" in current_player:
+			current_player.can_move = false
 		if "move_speed" in current_player:
 			current_player.move_speed = 0.0
 		# Camera zoom toward table
 		if current_player.has_node("CamPivot/SpringArm3D"):
 			var spring = current_player.get_node("CamPivot/SpringArm3D")
 			var tween = create_tween()
-			tween.tween_property(spring, "spring_length", 2.0, 0.8)
+			tween.tween_property(spring, "spring_length", 2.2, 0.8)
 
 	SFX.play_dramatic()
 	
@@ -97,18 +103,22 @@ func _start_ending_sequence() -> void:
 		joke_panel.visible = true
 	
 	SFX.play_ending()
-	
 	GameState.set_state(GameState.State.GAME_OVER)
 	
-	# Wait 2.0 seconds then show victory screen
+	# Wait 2.0 seconds then show comic victory screen
 	await get_tree().create_timer(2.0).timeout
 	
 	if victory_panel:
 		victory_panel.visible = true
 	
-	# Unlock mouse
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_play_again_pressed() -> void:
+	SFX.play_ui_click()
 	GameState.reset()
 	get_tree().reload_current_scene()
+
+func _on_main_menu_pressed() -> void:
+	SFX.play_ui_click()
+	GameState.reset()
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

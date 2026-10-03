@@ -1,10 +1,13 @@
-[gd_scene load_steps=37 format=3]
+[gd_scene load_steps=38 format=3]
 
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main_script"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/old_man.tscn" id="2_old_man"]
 [ext_resource type="PackedScene" path="res://scenes/chicken.tscn" id="3_chicken"]
 [ext_resource type="PackedScene" path="res://scenes/cave_note.tscn" id="4_cave_note"]
 [ext_resource type="PackedScene" path="res://scenes/ending_table.tscn" id="5_ending_table"]
+[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="6_pause_menu"]
+[ext_resource type="PackedScene" path="res://assets/indian_village_kirana_shop__game-ready_3d_asset.glb" id="7_kirana_shop"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 sky_top_color = Color(0.25, 0.55, 0.92, 1)
@@ -456,6 +459,7 @@ material = SubResource("Mat_Turquoise")
 size = Vector3(0.95, 0.80, 0.02)
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_main_script")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1")
@@ -569,112 +573,8 @@ mesh = SubResource("Mesh_Door")
 transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 3.4, 0)
 mesh = SubResource("Mesh_Roof")
 
-[node name="TeaStall" type="StaticBody3D" parent="."]
+[node name="KiranaShop" parent="." instance=ExtResource("7_kirana_shop")]
 transform = Transform3D(0.09659, 0, -0.02588, 0, 0.1, 0, 0.02588, 0, 0.09659, 6.5, 0, 2.5)
-collision_layer = 1
-collision_mask = 3
-
-[node name="CounterCollision" type="CollisionShape3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-shape = SubResource("Shape_House3")
-
-[node name="CounterMesh" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-mesh = SubResource("Mesh_House3_Body")
-
-[node name="Pole1" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.5, -1.8)
-mesh = SubResource("Mesh_Pillar")
-
-[node name="Pole2" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, -1.8)
-mesh = SubResource("Mesh_Pillar")
-
-[node name="Pole3" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.5, 1.8)
-mesh = SubResource("Mesh_Pillar")
-
-[node name="Pole4" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, 1.8)
-mesh = SubResource("Mesh_Pillar")
-
-[node name="Awning" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 2.8, 0)
-mesh = SubResource("Mesh_BlueAwning")
-
-[node name="SignBoard" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 1.85)
-mesh = SubResource("Mesh_SignBoard")
-
-[node name="SignRed" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 1.90)
-mesh = SubResource("Mesh_SignRed")
-
-[node name="Bench" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0.25, 0)
-mesh = SubResource("Mesh_Bench")
-
-[node name="Kettle" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
-mesh = SubResource("Mesh_Kettle")
-
-[node name="TeaTable" type="MeshInstance3D" parent="TeaStall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0.32, 2.8)
-mesh = SubResource("Mesh_TeaTable")
-
-[node name="Chair1" type="Node3D" parent="TeaStall"]
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2.4, 0, 2.8)
-
-[node name="Seat" type="MeshInstance3D" parent="TeaStall/Chair1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
-mesh = SubResource("Mesh_ChairSeat")
-
-[node name="Back" type="MeshInstance3D" parent="TeaStall/Chair1"]
-transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 0.65, -0.22)
-mesh = SubResource("Mesh_ChairBack")
-
-[node name="Leg1" type="MeshInstance3D" parent="TeaStall/Chair1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.21, -0.2)
-mesh = SubResource("Mesh_ChairLeg")
-
-[node name="Leg2" type="MeshInstance3D" parent="TeaStall/Chair1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.21, -0.2)
-mesh = SubResource("Mesh_ChairLeg")
-
-[node name="Leg3" type="MeshInstance3D" parent="TeaStall/Chair1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.21, 0.2)
-mesh = SubResource("Mesh_ChairLeg")
-
-[node name="Leg4" type="MeshInstance3D" parent="TeaStall/Chair1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.21, 0.2)
-mesh = SubResource("Mesh_ChairLeg")
-
-[node name="Chair2" type="Node3D" parent="TeaStall"]
-transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -1.2, 0, 2.8)
-
-[node name="Seat" type="MeshInstance3D" parent="TeaStall/Chair2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
-mesh = SubResource("Mesh_ChairSeat")
-
-[node name="Back" type="MeshInstance3D" parent="TeaStall/Chair2"]
-transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 0.65, 0.22)
-mesh = SubResource("Mesh_ChairBack")
-
-[node name="Leg1" type="MeshInstance3D" parent="TeaStall/Chair2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.21, -0.2)
-mesh = SubResource("Mesh_ChairLeg")
-
-[node name="Leg2" type="MeshInstance3D" parent="TeaStall/Chair2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.21, -0.2)
-mesh = SubResource("Mesh_ChairLeg")
-
-[node name="Leg3" type="MeshInstance3D" parent="TeaStall/Chair2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.21, 0.2)
-mesh = SubResource("Mesh_ChairLeg")
-
-[node name="Leg4" type="MeshInstance3D" parent="TeaStall/Chair2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.21, 0.2)
-mesh = SubResource("Mesh_ChairLeg")
 
 [node name="VillageTree" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.5)
@@ -1063,3 +963,5 @@ transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 3.8, 0, 1.
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 12)
+
+[node name="PauseMenu" parent="." groups=["pause_menu"] instance=ExtResource("6_pause_menu")]
