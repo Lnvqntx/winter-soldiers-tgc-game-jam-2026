@@ -573,11 +573,8 @@ mesh = SubResource("Mesh_Door")
 transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 3.4, 0)
 mesh = SubResource("Mesh_Roof")
 
-[node name="KiranaShop" type="Node3D" parent="."]
+[node name="KiranaShop" parent="." instance=ExtResource("7_kirana_shop")]
 transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 6.5, 0, 2.5)
-
-[node name="KiranaShopMesh" type="Node3D" parent="KiranaShop"]
-instance = ExtResource("7_kirana_shop")
 
 [node name="VillageTree" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.5)
