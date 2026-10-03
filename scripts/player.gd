@@ -118,13 +118,25 @@ func _physics_process(delta: float) -> void:
 		var target_angle := atan2(-move_dir.x, -move_dir.z)
 		mesh_root.rotation.y = lerp_angle(mesh_root.rotation.y, target_angle, rotation_speed * delta)
 
-	# Procedural footstep wobble for primitive placeholder
+	# Procedural footstep wobble & limb walk cycle
 	var horiz_speed := Vector2(velocity.x, velocity.z).length()
 	if is_on_floor() and horiz_speed > 0.5:
 		var bob_time = Time.get_ticks_msec() * 0.012
-		mesh_root.position.y = abs(sin(bob_time)) * 0.08
-		mesh_root.rotation.z = sin(bob_time * 0.5) * 0.04
+		mesh_root.position.y = abs(sin(bob_time)) * 0.06
+		mesh_root.rotation.z = sin(bob_time * 0.5) * 0.03
 		
+		var walk_cycle = Time.get_ticks_msec() * 0.014
+		if mesh_root.has_node("LegL"):
+			mesh_root.get_node("LegL").rotation.x = sin(walk_cycle) * 0.45
+			mesh_root.get_node("ShoeL").rotation.x = sin(walk_cycle) * 0.45
+		if mesh_root.has_node("LegR"):
+			mesh_root.get_node("LegR").rotation.x = -sin(walk_cycle) * 0.45
+			mesh_root.get_node("ShoeR").rotation.x = -sin(walk_cycle) * 0.45
+		if mesh_root.has_node("ArmL"):
+			mesh_root.get_node("ArmL").rotation.x = -sin(walk_cycle) * 0.35
+		if mesh_root.has_node("ArmR"):
+			mesh_root.get_node("ArmR").rotation.x = sin(walk_cycle) * 0.35
+
 		footstep_timer += delta
 		if footstep_timer >= 0.35:
 			footstep_timer = 0.0
@@ -132,6 +144,16 @@ func _physics_process(delta: float) -> void:
 	else:
 		mesh_root.position.y = move_toward(mesh_root.position.y, 0.0, delta * 2.0)
 		mesh_root.rotation.z = move_toward(mesh_root.rotation.z, 0.0, delta * 2.0)
+		if mesh_root.has_node("LegL"):
+			mesh_root.get_node("LegL").rotation.x = move_toward(mesh_root.get_node("LegL").rotation.x, 0.0, delta * 4.0)
+			mesh_root.get_node("ShoeL").rotation.x = move_toward(mesh_root.get_node("ShoeL").rotation.x, 0.0, delta * 4.0)
+		if mesh_root.has_node("LegR"):
+			mesh_root.get_node("LegR").rotation.x = move_toward(mesh_root.get_node("LegR").rotation.x, 0.0, delta * 4.0)
+			mesh_root.get_node("ShoeR").rotation.x = move_toward(mesh_root.get_node("ShoeR").rotation.x, 0.0, delta * 4.0)
+		if mesh_root.has_node("ArmL"):
+			mesh_root.get_node("ArmL").rotation.x = move_toward(mesh_root.get_node("ArmL").rotation.x, 0.0, delta * 4.0)
+		if mesh_root.has_node("ArmR"):
+			mesh_root.get_node("ArmR").rotation.x = move_toward(mesh_root.get_node("ArmR").rotation.x, 0.0, delta * 4.0)
 		footstep_timer = 0.28
 
 	_update_interaction()

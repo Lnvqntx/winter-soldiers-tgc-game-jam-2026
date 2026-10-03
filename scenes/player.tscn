@@ -1,30 +1,165 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=26 format=3]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_script"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
-radius = 0.4
-height = 1.8
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 0.38
+height = 1.75
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
-albedo_color = Color(0.2, 0.45, 0.85, 1)
-roughness = 0.6
+[sub_resource type="StandardMaterial3D" id="Mat_Skin"]
+albedo_color = Color(0.76, 0.52, 0.38, 1)
+roughness = 0.65
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
-material = SubResource("StandardMaterial3D_body")
-radius = 0.4
-height = 1.8
+[sub_resource type="SphereMesh" id="Mesh_Head"]
+material = SubResource("Mat_Skin")
+radius = 0.16
+height = 0.30
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_visor"]
-albedo_color = Color(0.95, 0.75, 0.15, 1)
-roughness = 0.2
+[sub_resource type="StandardMaterial3D" id="Mat_Hair"]
+albedo_color = Color(0.12, 0.11, 0.12, 1)
+roughness = 0.55
 
-[sub_resource type="BoxMesh" id="BoxMesh_visor"]
-material = SubResource("StandardMaterial3D_visor")
-size = Vector3(0.4, 0.18, 0.3)
+[sub_resource type="SphereMesh" id="Mesh_HairCap"]
+material = SubResource("Mat_Hair")
+radius = 0.18
+height = 0.24
+
+[sub_resource type="BoxMesh" id="Mesh_HairTuft"]
+material = SubResource("Mat_Hair")
+size = Vector3(0.08, 0.10, 0.14)
+
+[sub_resource type="StandardMaterial3D" id="Mat_TShirt"]
+albedo_color = Color(0.82, 0.28, 0.22, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="Mesh_Torso"]
+material = SubResource("Mat_TShirt")
+size = Vector3(0.42, 0.52, 0.26)
+
+[sub_resource type="BoxMesh" id="Mesh_Sleeve"]
+material = SubResource("Mat_TShirt")
+size = Vector3(0.14, 0.18, 0.18)
+
+[sub_resource type="CylinderMesh" id="Mesh_Arm"]
+material = SubResource("Mat_Skin")
+top_radius = 0.055
+bottom_radius = 0.05
+height = 0.32
+
+[sub_resource type="SphereMesh" id="Mesh_Hand"]
+material = SubResource("Mat_Skin")
+radius = 0.055
+height = 0.11
+
+[sub_resource type="StandardMaterial3D" id="Mat_Backpack"]
+albedo_color = Color(0.58, 0.40, 0.22, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_BackpackBody"]
+material = SubResource("Mat_Backpack")
+size = Vector3(0.32, 0.38, 0.18)
+
+[sub_resource type="StandardMaterial3D" id="Mat_BackpackFlap"]
+albedo_color = Color(0.50, 0.34, 0.18, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_BackpackFlap"]
+material = SubResource("Mat_BackpackFlap")
+size = Vector3(0.33, 0.14, 0.19)
+
+[sub_resource type="BoxMesh" id="Mesh_BackpackPocket"]
+material = SubResource("Mat_Backpack")
+size = Vector3(0.24, 0.18, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Brass"]
+albedo_color = Color(0.88, 0.74, 0.28, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="Mesh_Buckle"]
+material = SubResource("Mat_Brass")
+size = Vector3(0.08, 0.04, 0.03)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Jeans"]
+albedo_color = Color(0.24, 0.36, 0.54, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_Pelvis"]
+material = SubResource("Mat_Jeans")
+size = Vector3(0.40, 0.16, 0.24)
+
+[sub_resource type="CapsuleMesh" id="Mesh_Leg"]
+material = SubResource("Mat_Jeans")
+radius = 0.09
+height = 0.62
+
+[sub_resource type="StandardMaterial3D" id="Mat_Sneakers"]
+albedo_color = Color(0.92, 0.92, 0.90, 1)
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_Sole"]
+albedo_color = Color(0.20, 0.20, 0.22, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Mesh_ShoeUpper"]
+material = SubResource("Mat_Sneakers")
+size = Vector3(0.12, 0.10, 0.24)
+
+[sub_resource type="BoxMesh" id="Mesh_ShoeSole"]
+material = SubResource("Mat_Sole")
+size = Vector3(0.13, 0.03, 0.25)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_area"]
-radius = 2.2
+radius = 2.4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_InteractBadge"]
+bg_color = Color(0.10, 0.10, 0.12, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.85, 0.3, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 4
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ControlsPanel"]
+bg_color = Color(0.08, 0.08, 0.10, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.35, 0.40, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 4
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_KeyCap"]
+bg_color = Color(0.24, 0.24, 0.28, 1)
+border_width_bottom = 2
+border_color = Color(0.12, 0.12, 0.14, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 6.0
+content_margin_top = 2.0
+content_margin_right = 6.0
+content_margin_bottom = 2.0
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 collision_layer = 2
@@ -32,34 +167,126 @@ collision_mask = 1
 script = ExtResource("1_script")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("CapsuleShape3D_1")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0)
+shape = SubResource("CapsuleShape3D_player")
 
 [node name="MeshRoot" type="Node3D" parent="."]
 
-[node name="BodyMesh" type="MeshInstance3D" parent="MeshRoot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("CapsuleMesh_body")
+[node name="Torso" type="MeshInstance3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("Mesh_Torso")
 
-[node name="VisorMesh" type="MeshInstance3D" parent="MeshRoot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, -0.3)
-mesh = SubResource("BoxMesh_visor")
+[node name="HeadRoot" type="Node3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48, 0)
+
+[node name="HeadMesh" type="MeshInstance3D" parent="MeshRoot/HeadRoot"]
+mesh = SubResource("Mesh_Head")
+
+[node name="HairCap" type="MeshInstance3D" parent="MeshRoot/HeadRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+mesh = SubResource("Mesh_HairCap")
+
+[node name="HairFringe" type="MeshInstance3D" parent="MeshRoot/HeadRoot"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -0.04, 0.10, -0.11)
+mesh = SubResource("Mesh_HairTuft")
+
+[node name="HairTuftR" type="MeshInstance3D" parent="MeshRoot/HeadRoot"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.08, 0.11, -0.08)
+mesh = SubResource("Mesh_HairTuft")
+
+[node name="SleeveL" type="MeshInstance3D" parent="MeshRoot"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.26, 1.22, 0)
+mesh = SubResource("Mesh_Sleeve")
+
+[node name="ArmL" type="MeshInstance3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26, 0.98, 0)
+mesh = SubResource("Mesh_Arm")
+
+[node name="HandL" type="MeshInstance3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26, 0.78, 0)
+mesh = SubResource("Mesh_Hand")
+
+[node name="SleeveR" type="MeshInstance3D" parent="MeshRoot"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.26, 1.22, 0)
+mesh = SubResource("Mesh_Sleeve")
+
+[node name="ArmR" type="MeshInstance3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26, 0.98, 0)
+mesh = SubResource("Mesh_Arm")
+
+[node name="HandR" type="MeshInstance3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26, 0.78, 0)
+mesh = SubResource("Mesh_Hand")
+
+[node name="Backpack" type="Node3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0.17)
+
+[node name="BackpackBody" type="MeshInstance3D" parent="MeshRoot/Backpack"]
+mesh = SubResource("Mesh_BackpackBody")
+
+[node name="BackpackFlap" type="MeshInstance3D" parent="MeshRoot/Backpack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0.01)
+mesh = SubResource("Mesh_BackpackFlap")
+
+[node name="BackpackPocket" type="MeshInstance3D" parent="MeshRoot/Backpack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0.10)
+mesh = SubResource("Mesh_BackpackPocket")
+
+[node name="Buckle1" type="MeshInstance3D" parent="MeshRoot/Backpack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 0.06, 0.11)
+mesh = SubResource("Mesh_Buckle")
+
+[node name="Buckle2" type="MeshInstance3D" parent="MeshRoot/Backpack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 0.06, 0.11)
+mesh = SubResource("Mesh_Buckle")
+
+[node name="Pelvis" type="MeshInstance3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0)
+mesh = SubResource("Mesh_Pelvis")
+
+[node name="LegL" type="MeshInstance3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0.40, 0)
+mesh = SubResource("Mesh_Leg")
+
+[node name="ShoeL" type="Node3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0.05, -0.03)
+
+[node name="Upper" type="MeshInstance3D" parent="MeshRoot/ShoeL"]
+mesh = SubResource("Mesh_ShoeUpper")
+
+[node name="Sole" type="MeshInstance3D" parent="MeshRoot/ShoeL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 0)
+mesh = SubResource("Mesh_ShoeSole")
+
+[node name="LegR" type="MeshInstance3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.40, 0)
+mesh = SubResource("Mesh_Leg")
+
+[node name="ShoeR" type="Node3D" parent="MeshRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.05, -0.03)
+
+[node name="Upper" type="MeshInstance3D" parent="MeshRoot/ShoeR"]
+mesh = SubResource("Mesh_ShoeUpper")
+
+[node name="Sole" type="MeshInstance3D" parent="MeshRoot/ShoeR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 0)
+mesh = SubResource("Mesh_ShoeSole")
 
 [node name="CamPivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CamPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.978148, 0.207912, 0, -0.207912, 0.978148, 0.35, 0.15, 0)
 collision_mask = 1
-spring_length = 4.5
+spring_length = 3.6
 margin = 0.2
 
 [node name="Camera3D" type="Camera3D" parent="CamPivot/SpringArm3D"]
 current = true
-fov = 70.0
+fov = 68.0
 
 [node name="InteractRay" type="RayCast3D" parent="CamPivot/SpringArm3D/Camera3D"]
-target_position = Vector3(0, 0, -8.0)
+target_position = Vector3(0, 0, -7.0)
 collision_mask = 1
 collide_with_areas = true
 collide_with_bodies = true
@@ -80,14 +307,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 3.0
-offset_bottom = 3.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(1, 1, 1, 0.6)
+color = Color(1, 1, 1, 0.5)
 
 [node name="InteractPrompt" type="Label" parent="HUD"]
 anchors_preset = 8
@@ -95,22 +322,117 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = 35.0
-offset_right = 150.0
-offset_bottom = 65.0
+offset_left = -160.0
+offset_top = 40.0
+offset_right = 160.0
+offset_bottom = 76.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "[E] Interact"
+theme_override_colors/font_color = Color(1, 0.92, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_InteractBadge")
+text = "[E] INTERACT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="StatusLabel" type="Label" parent="HUD"]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 40.0
+offset_bottom = 35.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 15
-text = "LENAL Prototype"
+theme_override_colors/font_color = Color(1, 0.9, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_font_sizes/font_size = 14
+text = "LENAL — Stylized Indian Village Adventure"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ControlsPanel" type="PanelContainer" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -225.0
+offset_top = -92.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ControlsPanel")
+
+[node name="VBox" type="VBoxContainer" parent="HUD/ControlsPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="HBox1" type="HBoxContainer" parent="HUD/ControlsPanel/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="KeyW" type="Label" parent="HUD/ControlsPanel/VBox/HBox1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_KeyCap")
+text = "W"
+
+[node name="KeyA" type="Label" parent="HUD/ControlsPanel/VBox/HBox1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_KeyCap")
+text = "A"
+
+[node name="KeyS" type="Label" parent="HUD/ControlsPanel/VBox/HBox1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_KeyCap")
+text = "S"
+
+[node name="KeyD" type="Label" parent="HUD/ControlsPanel/VBox/HBox1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_KeyCap")
+text = "D"
+
+[node name="LabelMove" type="Label" parent="HUD/ControlsPanel/VBox/HBox1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "Move"
+
+[node name="HBox2" type="HBoxContainer" parent="HUD/ControlsPanel/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="LabelMouse" type="Label" parent="HUD/ControlsPanel/VBox/HBox2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.75, 1)
+theme_override_font_sizes/font_size = 11
+text = "Mouse: Look"
+
+[node name="Sep" type="Label" parent="HUD/ControlsPanel/VBox/HBox2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "|"
+
+[node name="KeyE" type="Label" parent="HUD/ControlsPanel/VBox/HBox2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_KeyCap")
+text = "E"
+
+[node name="LabelInteract" type="Label" parent="HUD/ControlsPanel/VBox/HBox2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 11
+text = "Interact"
