@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3]
+[gd_scene load_steps=65 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main_script"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
@@ -10,10 +10,10 @@
 [ext_resource type="PackedScene" path="res://assets/indian_village_kirana_shop__game-ready_3d_asset.glb" id="7_kirana_shop"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
-sky_top_color = Color(0.25, 0.55, 0.92, 1)
-sky_horizon_color = Color(0.88, 0.82, 0.72, 1)
-ground_bottom_color = Color(0.36, 0.26, 0.18, 1)
-ground_horizon_color = Color(0.82, 0.75, 0.66, 1)
+sky_top_color = Color(0.28, 0.58, 0.95, 1)
+sky_horizon_color = Color(0.88, 0.84, 0.74, 1)
+ground_bottom_color = Color(0.32, 0.24, 0.16, 1)
+ground_horizon_color = Color(0.82, 0.76, 0.66, 1)
 
 [sub_resource type="Sky" id="Sky_1"]
 sky_material = SubResource("ProceduralSkyMaterial_1")
@@ -22,61 +22,287 @@ sky_material = SubResource("ProceduralSkyMaterial_1")
 background_mode = 2
 sky = SubResource("Sky_1")
 ambient_light_source = 3
-ambient_light_color = Color(0.92, 0.85, 0.75, 1)
-ambient_light_energy = 0.5
+ambient_light_color = Color(0.95, 0.88, 0.78, 1)
+ambient_light_energy = 0.65
 tonemap_mode = 2
 glow_enabled = true
-glow_bloom = 0.12
+glow_bloom = 0.15
 
-[sub_resource type="StandardMaterial3D" id="Mat_VillageGround"]
-albedo_color = Color(0.68, 0.56, 0.42, 1)
+[sub_resource type="StandardMaterial3D" id="Mat_Grass"]
+albedo_color = Color(0.38, 0.60, 0.24, 1)
 roughness = 0.95
 
 [sub_resource type="BoxShape3D" id="Shape_Ground"]
-size = Vector3(50, 1, 50)
+size = Vector3(72, 1, 72)
 
 [sub_resource type="BoxMesh" id="Mesh_Ground"]
-material = SubResource("Mat_VillageGround")
-size = Vector3(50, 1, 50)
+material = SubResource("Mat_Grass")
+size = Vector3(72, 1, 72)
 
-[sub_resource type="StandardMaterial3D" id="Mat_DirtRoad"]
-albedo_color = Color(0.5, 0.38, 0.26, 1)
+[sub_resource type="StandardMaterial3D" id="Mat_StoneRoad"]
+albedo_color = Color(0.82, 0.74, 0.60, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_PlazaStone"]
+albedo_color = Color(0.78, 0.70, 0.58, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_Avenue"]
+material = SubResource("Mat_StoneRoad")
+size = Vector3(4.8, 0.05, 14.0)
+
+[sub_resource type="BoxMesh" id="Mesh_Avenue_North"]
+material = SubResource("Mat_StoneRoad")
+size = Vector3(4.8, 0.05, 10.0)
+
+[sub_resource type="BoxMesh" id="Mesh_CrossStreet"]
+material = SubResource("Mat_StoneRoad")
+size = Vector3(36.0, 0.05, 4.0)
+
+[sub_resource type="CylinderMesh" id="Mesh_PlazaCircle"]
+material = SubResource("Mat_PlazaStone")
+top_radius = 8.5
+bottom_radius = 8.5
+height = 0.06
+
+[sub_resource type="StandardMaterial3D" id="Mat_Stone"]
+albedo_color = Color(0.65, 0.60, 0.54, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="Mesh_Chabutra"]
+material = SubResource("Mat_Stone")
+top_radius = 3.6
+bottom_radius = 3.8
+height = 0.6
+
+[sub_resource type="CylinderShape3D" id="Shape_Chabutra"]
+top_radius = 3.6
+bottom_radius = 3.8
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_Wood"]
+albedo_color = Color(0.42, 0.28, 0.16, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="Mesh_BanyanTrunk"]
+material = SubResource("Mat_Wood")
+top_radius = 0.95
+bottom_radius = 1.35
+height = 4.8
+
+[sub_resource type="CylinderShape3D" id="Shape_BanyanTrunk"]
+top_radius = 0.95
+bottom_radius = 1.35
+height = 4.8
+
+[sub_resource type="CylinderMesh" id="Mesh_BanyanRoot"]
+material = SubResource("Mat_Wood")
+top_radius = 0.10
+bottom_radius = 0.12
+height = 3.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_BanyanFoliage"]
+albedo_color = Color(0.18, 0.46, 0.20, 1)
+roughness = 0.8
+
+[sub_resource type="SphereMesh" id="Mesh_BanyanCanopy1"]
+material = SubResource("Mat_BanyanFoliage")
+radius = 4.2
+height = 3.8
+
+[sub_resource type="SphereMesh" id="Mesh_BanyanCanopy2"]
+material = SubResource("Mat_BanyanFoliage")
+radius = 3.2
+height = 2.8
+
+[sub_resource type="SphereMesh" id="Mesh_BanyanCanopy3"]
+material = SubResource("Mat_BanyanFoliage")
+radius = 2.5
+height = 2.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_RoofTile"]
+albedo_color = Color(0.78, 0.32, 0.16, 1)
+roughness = 0.72
+
+[sub_resource type="BoxMesh" id="Mesh_GateRoof"]
+material = SubResource("Mat_RoofTile")
+size = Vector3(6.2, 0.45, 1.8)
+
+[sub_resource type="BoxMesh" id="Mesh_GatePillar"]
+material = SubResource("Mat_Stone")
+size = Vector3(0.9, 4.2, 0.9)
+
+[sub_resource type="BoxMesh" id="Mesh_GateLintel"]
+material = SubResource("Mat_Stone")
+size = Vector3(5.6, 0.6, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_CompoundWall"]
+albedo_color = Color(0.62, 0.58, 0.52, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="Mesh_CompoundWall"]
+material = SubResource("Mat_CompoundWall")
+size = Vector3(10.0, 1.2, 0.35)
+
+[sub_resource type="BoxShape3D" id="Shape_CompoundWall"]
+size = Vector3(10.0, 1.2, 0.35)
+
+[sub_resource type="BoxMesh" id="Mesh_WallPillar"]
+material = SubResource("Mat_Stone")
+size = Vector3(0.55, 1.35, 0.55)
+
+[sub_resource type="StandardMaterial3D" id="Mat_TempleSandstone"]
+albedo_color = Color(0.85, 0.70, 0.45, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_TempleTerrace"]
+material = SubResource("Mat_TempleSandstone")
+size = Vector3(16.0, 1.2, 14.0)
+
+[sub_resource type="BoxShape3D" id="Shape_TempleTerrace"]
+size = Vector3(16.0, 1.2, 14.0)
+
+[sub_resource type="BoxMesh" id="Mesh_TempleStairs"]
+material = SubResource("Mat_TempleSandstone")
+size = Vector3(5.5, 0.3, 2.5)
+
+[sub_resource type="BoxMesh" id="Mesh_Gopuram1"]
+material = SubResource("Mat_TempleSandstone")
+size = Vector3(8.5, 3.5, 5.5)
+
+[sub_resource type="BoxMesh" id="Mesh_Gopuram2"]
+material = SubResource("Mat_TempleSandstone")
+size = Vector3(7.0, 3.0, 4.5)
+
+[sub_resource type="BoxMesh" id="Mesh_Gopuram3"]
+material = SubResource("Mat_TempleSandstone")
+size = Vector3(5.5, 2.5, 3.5)
+
+[sub_resource type="BoxMesh" id="Mesh_Gopuram4"]
+material = SubResource("Mat_TempleSandstone")
+size = Vector3(4.2, 2.0, 2.8)
+
+[sub_resource type="CylinderMesh" id="Mesh_GopuramCrown"]
+material = SubResource("Mat_TempleSandstone")
+top_radius = 1.0
+bottom_radius = 1.0
+height = 3.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_BrassKalasam"]
+albedo_color = Color(0.95, 0.80, 0.22, 1)
+metallic = 0.85
+roughness = 0.25
+
+[sub_resource type="CylinderMesh" id="Mesh_Kalasam"]
+material = SubResource("Mat_BrassKalasam")
+top_radius = 0.02
+bottom_radius = 0.12
+height = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_Water"]
+albedo_color = Color(0.20, 0.55, 0.70, 0.9)
+roughness = 0.15
+metallic = 0.1
+
+[sub_resource type="BoxMesh" id="Mesh_Water"]
+material = SubResource("Mat_Water")
+size = Vector3(8.0, 0.4, 70.0)
+
+[sub_resource type="StandardMaterial3D" id="Mat_RiverRock"]
+albedo_color = Color(0.48, 0.46, 0.42, 1)
 roughness = 0.9
 
-[sub_resource type="BoxMesh" id="Mesh_Road_Straight"]
-material = SubResource("Mat_DirtRoad")
-size = Vector3(4.5, 0.05, 16)
+[sub_resource type="SphereMesh" id="Mesh_RiverRock1"]
+material = SubResource("Mat_RiverRock")
+radius = 0.65
+height = 0.85
 
-[sub_resource type="BoxMesh" id="Mesh_Road_Square"]
-material = SubResource("Mat_DirtRoad")
-size = Vector3(10, 0.05, 10)
+[sub_resource type="SphereMesh" id="Mesh_RiverRock2"]
+material = SubResource("Mat_RiverRock")
+radius = 0.45
+height = 0.60
 
-[sub_resource type="BoxMesh" id="Mesh_Road_CavePath"]
-material = SubResource("Mat_DirtRoad")
-size = Vector3(3.5, 0.05, 14)
+[sub_resource type="BoxMesh" id="Mesh_BridgeDeck"]
+material = SubResource("Mat_Stone")
+size = Vector3(9.5, 0.4, 3.8)
+
+[sub_resource type="BoxMesh" id="Mesh_BridgeRailing"]
+material = SubResource("Mat_Stone")
+size = Vector3(9.5, 0.8, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_TilledSoil"]
+albedo_color = Color(0.32, 0.22, 0.15, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="Mesh_CropPlot"]
+material = SubResource("Mat_TilledSoil")
+size = Vector3(7.5, 0.1, 7.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_CropGreen"]
+albedo_color = Color(0.26, 0.60, 0.20, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="Mesh_CropRow"]
+material = SubResource("Mat_CropGreen")
+size = Vector3(6.5, 0.45, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Haystack"]
+albedo_color = Color(0.85, 0.72, 0.32, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="Mesh_Haystack"]
+material = SubResource("Mat_Haystack")
+top_radius = 0.1
+bottom_radius = 1.3
+height = 2.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_HousePlasterWhite"]
+albedo_color = Color(0.92, 0.90, 0.86, 1)
+roughness = 0.9
 
 [sub_resource type="StandardMaterial3D" id="Mat_HouseBlue"]
 albedo_color = Color(0.28, 0.48, 0.68, 1)
 roughness = 0.85
 
-[sub_resource type="BoxMesh" id="Mesh_House1_Body"]
+[sub_resource type="StandardMaterial3D" id="Mat_HouseYellow"]
+albedo_color = Color(0.82, 0.62, 0.28, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_HouseGreen"]
+albedo_color = Color(0.38, 0.56, 0.46, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_House_BlueBody"]
 material = SubResource("Mat_HouseBlue")
-size = Vector3(6, 3.6, 5)
+size = Vector3(6.0, 3.6, 5.0)
 
 [sub_resource type="BoxShape3D" id="Shape_House1"]
-size = Vector3(6, 3.6, 5)
+size = Vector3(6.0, 3.6, 5.0)
 
-[sub_resource type="StandardMaterial3D" id="Mat_RoofTile"]
-albedo_color = Color(0.75, 0.32, 0.18, 1)
-roughness = 0.7
+[sub_resource type="BoxMesh" id="Mesh_House_YellowBody"]
+material = SubResource("Mat_HouseYellow")
+size = Vector3(6.5, 4.2, 5.5)
+
+[sub_resource type="BoxShape3D" id="Shape_House2"]
+size = Vector3(6.5, 4.2, 5.5)
+
+[sub_resource type="BoxMesh" id="Mesh_House_GreenBody"]
+material = SubResource("Mat_HouseGreen")
+size = Vector3(5.0, 3.2, 4.5)
+
+[sub_resource type="BoxShape3D" id="Shape_House3"]
+size = Vector3(5.0, 3.2, 4.5)
+
+[sub_resource type="BoxMesh" id="Mesh_House_WhiteBody"]
+material = SubResource("Mat_HousePlasterWhite")
+size = Vector3(5.5, 3.4, 4.8)
+
+[sub_resource type="BoxShape3D" id="Shape_HouseWhite"]
+size = Vector3(5.5, 3.4, 4.8)
 
 [sub_resource type="BoxMesh" id="Mesh_Roof"]
 material = SubResource("Mat_RoofTile")
 size = Vector3(6.6, 0.35, 3.2)
-
-[sub_resource type="StandardMaterial3D" id="Mat_Wood"]
-albedo_color = Color(0.42, 0.28, 0.16, 1)
-roughness = 0.8
 
 [sub_resource type="BoxMesh" id="Mesh_Door"]
 material = SubResource("Mat_Wood")
@@ -117,68 +343,6 @@ top_radius = 0.12
 bottom_radius = 0.15
 height = 0.35
 
-[sub_resource type="StandardMaterial3D" id="Mat_HouseYellow"]
-albedo_color = Color(0.82, 0.62, 0.28, 1)
-roughness = 0.85
-
-[sub_resource type="BoxMesh" id="Mesh_House2_Body"]
-material = SubResource("Mat_HouseYellow")
-size = Vector3(6.5, 4.2, 5.5)
-
-[sub_resource type="BoxShape3D" id="Shape_House2"]
-size = Vector3(6.5, 4.2, 5.5)
-
-[sub_resource type="StandardMaterial3D" id="Mat_HouseGreen"]
-albedo_color = Color(0.38, 0.56, 0.46, 1)
-roughness = 0.85
-
-[sub_resource type="BoxMesh" id="Mesh_House3_Body"]
-material = SubResource("Mat_HouseGreen")
-size = Vector3(5, 3.2, 4.5)
-
-[sub_resource type="BoxShape3D" id="Shape_House3"]
-size = Vector3(5, 3.2, 4.5)
-
-[sub_resource type="StandardMaterial3D" id="Mat_Stone"]
-albedo_color = Color(0.52, 0.48, 0.44, 1)
-roughness = 0.9
-
-[sub_resource type="CylinderMesh" id="Mesh_Chabutra"]
-material = SubResource("Mat_Stone")
-top_radius = 3.2
-bottom_radius = 3.3
-height = 0.55
-
-[sub_resource type="CylinderShape3D" id="Shape_Chabutra"]
-top_radius = 3.2
-bottom_radius = 3.3
-height = 0.55
-
-[sub_resource type="CylinderMesh" id="Mesh_TreeTrunk"]
-material = SubResource("Mat_Wood")
-top_radius = 0.55
-bottom_radius = 0.85
-height = 5.2
-
-[sub_resource type="CylinderShape3D" id="Shape_TreeTrunk"]
-top_radius = 0.55
-bottom_radius = 0.85
-height = 5.2
-
-[sub_resource type="StandardMaterial3D" id="Mat_Foliage"]
-albedo_color = Color(0.22, 0.52, 0.26, 1)
-roughness = 0.8
-
-[sub_resource type="SphereMesh" id="Mesh_Canopy1"]
-material = SubResource("Mat_Foliage")
-radius = 2.6
-height = 3.5
-
-[sub_resource type="SphereMesh" id="Mesh_Canopy2"]
-material = SubResource("Mat_Foliage")
-radius = 2.2
-height = 3.0
-
 [sub_resource type="StandardMaterial3D" id="Mat_Clay"]
 albedo_color = Color(0.72, 0.4, 0.24, 1)
 roughness = 0.7
@@ -188,244 +352,54 @@ material = SubResource("Mat_Clay")
 radius = 0.3
 height = 0.55
 
-[sub_resource type="StandardMaterial3D" id="Mat_CaveVoid"]
-albedo_color = Color(0.04, 0.03, 0.03, 1)
-roughness = 0.9
+[sub_resource type="CylinderMesh" id="Mesh_WellCurb"]
+material = SubResource("Mat_Stone")
+top_radius = 1.35
+bottom_radius = 1.45
+height = 0.95
 
-[sub_resource type="BoxMesh" id="Mesh_CaveVoid"]
-material = SubResource("Mat_CaveVoid")
-size = Vector3(2.4, 3.2, 1.0)
+[sub_resource type="CylinderShape3D" id="Shape_WellCurb"]
+top_radius = 1.35
+bottom_radius = 1.45
+height = 0.95
 
-[sub_resource type="StandardMaterial3D" id="Mat_CaveDark"]
-albedo_color = Color(0.14, 0.13, 0.12, 1)
-roughness = 0.95
+[sub_resource type="BoxMesh" id="Mesh_WellRoof"]
+material = SubResource("Mat_RoofTile")
+size = Vector3(2.8, 0.3, 2.8)
 
-[sub_resource type="BoxMesh" id="Mesh_CaveTunnelFloor"]
-material = SubResource("Mat_CaveDark")
-size = Vector3(4.5, 0.2, 12)
+[sub_resource type="StandardMaterial3D" id="Mat_AwningYellow"]
+albedo_color = Color(0.95, 0.72, 0.15, 1)
+roughness = 0.8
 
-[sub_resource type="BoxMesh" id="Mesh_CaveTunnelWall"]
-material = SubResource("Mat_CaveDark")
-size = Vector3(1.0, 4.5, 12)
+[sub_resource type="StandardMaterial3D" id="Mat_AwningRed"]
+albedo_color = Color(0.85, 0.20, 0.16, 1)
+roughness = 0.8
 
-[sub_resource type="BoxShape3D" id="Shape_CaveTunnelWall"]
-size = Vector3(1.0, 4.5, 12)
+[sub_resource type="StandardMaterial3D" id="Mat_AwningBlue"]
+albedo_color = Color(0.18, 0.52, 0.82, 1)
+roughness = 0.8
 
-[sub_resource type="BoxMesh" id="Mesh_CaveTunnelCeiling"]
-material = SubResource("Mat_CaveDark")
-size = Vector3(6.5, 0.6, 12)
+[sub_resource type="BoxMesh" id="Mesh_AwningYellow"]
+material = SubResource("Mat_AwningYellow")
+size = Vector3(2.6, 0.12, 1.8)
 
-[sub_resource type="BoxMesh" id="Mesh_CaveChamberFloor"]
-material = SubResource("Mat_CaveDark")
-size = Vector3(14, 0.2, 12)
+[sub_resource type="BoxMesh" id="Mesh_AwningRed"]
+material = SubResource("Mat_AwningRed")
+size = Vector3(2.6, 0.12, 1.8)
 
-[sub_resource type="BoxMesh" id="Mesh_CaveChamberWall_NS"]
-material = SubResource("Mat_CaveDark")
-size = Vector3(14, 5.0, 1.0)
+[sub_resource type="BoxMesh" id="Mesh_AwningBlue"]
+material = SubResource("Mat_AwningBlue")
+size = Vector3(2.6, 0.12, 1.8)
 
-[sub_resource type="BoxShape3D" id="Shape_CaveChamberWall_NS"]
-size = Vector3(14, 5.0, 1.0)
+[sub_resource type="BoxMesh" id="Mesh_StallTable"]
+material = SubResource("Mat_Wood")
+size = Vector3(2.4, 0.8, 1.2)
 
-[sub_resource type="BoxMesh" id="Mesh_CaveChamberWall_Half"]
-material = SubResource("Mat_CaveDark")
-size = Vector3(5.5, 5.0, 1.0)
-
-[sub_resource type="BoxShape3D" id="Shape_CaveChamberWall_Half"]
-size = Vector3(5.5, 5.0, 1.0)
-
-[sub_resource type="BoxMesh" id="Mesh_CaveChamberWall_EW"]
-material = SubResource("Mat_CaveDark")
-size = Vector3(1.0, 5.0, 12)
-
-[sub_resource type="BoxShape3D" id="Shape_CaveChamberWall_EW"]
-size = Vector3(1.0, 5.0, 12)
-
-[sub_resource type="BoxMesh" id="Mesh_CaveChamberCeiling"]
-material = SubResource("Mat_CaveDark")
-size = Vector3(16, 0.6, 14)
-
-[sub_resource type="BoxShape3D" id="Shape_CaveRockSide"]
-size = Vector3(3.5, 4.5, 4.0)
-
-[sub_resource type="StandardMaterial3D" id="Mat_SignBoard"]
-albedo_color = Color(0.96, 0.95, 0.92, 1)
-roughness = 0.85
-
-[sub_resource type="BoxMesh" id="Mesh_SignBoard"]
-material = SubResource("Mat_SignBoard")
-size = Vector3(3.8, 0.75, 0.08)
-
-[sub_resource type="StandardMaterial3D" id="Mat_SignRed"]
-albedo_color = Color(0.86, 0.16, 0.12, 1)
-roughness = 0.5
-
-[sub_resource type="BoxMesh" id="Mesh_SignRed"]
-material = SubResource("Mat_SignRed")
-size = Vector3(3.4, 0.50, 0.02)
-
-[sub_resource type="StandardMaterial3D" id="Mat_BlueAwning"]
-albedo_color = Color(0.22, 0.46, 0.74, 1)
-roughness = 0.7
-
-[sub_resource type="BoxMesh" id="Mesh_BlueAwning"]
-material = SubResource("Mat_BlueAwning")
-size = Vector3(4.8, 0.35, 3.4)
-
-[sub_resource type="StandardMaterial3D" id="Mat_RedPlastic"]
-albedo_color = Color(0.88, 0.18, 0.14, 1)
-roughness = 0.45
-
-[sub_resource type="BoxMesh" id="Mesh_ChairSeat"]
-material = SubResource("Mat_RedPlastic")
-size = Vector3(0.48, 0.05, 0.48)
-
-[sub_resource type="BoxMesh" id="Mesh_ChairBack"]
-material = SubResource("Mat_RedPlastic")
-size = Vector3(0.46, 0.46, 0.04)
-
-[sub_resource type="CylinderMesh" id="Mesh_ChairLeg"]
-material = SubResource("Mat_RedPlastic")
-top_radius = 0.02
-bottom_radius = 0.02
-height = 0.45
-
-[sub_resource type="CylinderMesh" id="Mesh_TeaTable"]
-material = SubResource("Mat_RedPlastic")
-top_radius = 0.45
-bottom_radius = 0.45
-height = 0.65
-
-[sub_resource type="StandardMaterial3D" id="Mat_ScooterBlue"]
-albedo_color = Color(0.28, 0.56, 0.78, 1)
-metallic = 0.2
-roughness = 0.35
-
-[sub_resource type="BoxMesh" id="Mesh_ScooterBody"]
-material = SubResource("Mat_ScooterBlue")
-size = Vector3(0.44, 0.48, 1.3)
-
-[sub_resource type="BoxMesh" id="Mesh_ScooterApron"]
-material = SubResource("Mat_ScooterBlue")
-size = Vector3(0.50, 0.60, 0.06)
-
-[sub_resource type="StandardMaterial3D" id="Mat_Tire"]
-albedo_color = Color(0.12, 0.12, 0.14, 1)
-roughness = 0.9
-
-[sub_resource type="CylinderMesh" id="Mesh_ScooterWheel"]
-material = SubResource("Mat_Tire")
-top_radius = 0.20
-bottom_radius = 0.20
-height = 0.10
-
-[sub_resource type="BoxMesh" id="Mesh_ScooterSeat"]
-material = SubResource("Mat_Tire")
-size = Vector3(0.30, 0.10, 0.58)
-
-[sub_resource type="StandardMaterial3D" id="Mat_Headlight"]
-albedo_color = Color(1, 0.95, 0.6, 1)
-emission_enabled = true
-emission = Color(1, 0.9, 0.5, 1)
-emission_energy_multiplier = 1.2
-
-[sub_resource type="SphereMesh" id="Mesh_Headlight"]
-material = SubResource("Mat_Headlight")
-radius = 0.07
-height = 0.14
-
-[sub_resource type="StandardMaterial3D" id="Mat_MetalTower"]
-albedo_color = Color(0.40, 0.42, 0.46, 1)
-metallic = 0.5
-roughness = 0.6
-
-[sub_resource type="CylinderMesh" id="Mesh_TowerLeg"]
-material = SubResource("Mat_MetalTower")
-top_radius = 0.07
-bottom_radius = 0.07
-height = 7.5
-
-[sub_resource type="BoxMesh" id="Mesh_TowerPlatform"]
-material = SubResource("Mat_MetalTower")
-size = Vector3(3.2, 0.15, 3.2)
-
-[sub_resource type="StandardMaterial3D" id="Mat_WaterTank"]
-albedo_color = Color(0.50, 0.56, 0.64, 1)
-metallic = 0.4
-roughness = 0.5
-
-[sub_resource type="CylinderMesh" id="Mesh_WaterTankBody"]
-material = SubResource("Mat_WaterTank")
-top_radius = 1.25
-bottom_radius = 1.25
-height = 2.2
-
-[sub_resource type="CylinderMesh" id="Mesh_WaterTankCone"]
-material = SubResource("Mat_WaterTank")
-top_radius = 0.1
-bottom_radius = 1.3
-height = 0.55
-
-[sub_resource type="StandardMaterial3D" id="Mat_UtilityPole"]
-albedo_color = Color(0.46, 0.42, 0.38, 1)
-roughness = 0.9
-
-[sub_resource type="CylinderMesh" id="Mesh_UtilityPole"]
-material = SubResource("Mat_UtilityPole")
-top_radius = 0.09
-bottom_radius = 0.13
-height = 6.8
-
-[sub_resource type="BoxMesh" id="Mesh_PoleCrossarm"]
-material = SubResource("Mat_UtilityPole")
-size = Vector3(1.8, 0.12, 0.12)
-
-[sub_resource type="StandardMaterial3D" id="Mat_Wire"]
-albedo_color = Color(0.08, 0.08, 0.08, 1)
-roughness = 0.9
-
-[sub_resource type="BoxMesh" id="Mesh_Wire1"]
-material = SubResource("Mat_Wire")
-size = Vector3(0.02, 0.02, 17.0)
-
-[sub_resource type="StandardMaterial3D" id="Mat_GopuramStone"]
-albedo_color = Color(0.82, 0.68, 0.46, 1)
-roughness = 0.85
-
-[sub_resource type="BoxMesh" id="Mesh_Gopuram1"]
-material = SubResource("Mat_GopuramStone")
-size = Vector3(8.5, 3.5, 5.5)
-
-[sub_resource type="BoxMesh" id="Mesh_Gopuram2"]
-material = SubResource("Mat_GopuramStone")
-size = Vector3(7.0, 3.0, 4.5)
-
-[sub_resource type="BoxMesh" id="Mesh_Gopuram3"]
-material = SubResource("Mat_GopuramStone")
-size = Vector3(5.5, 2.5, 3.5)
-
-[sub_resource type="BoxMesh" id="Mesh_Gopuram4"]
-material = SubResource("Mat_GopuramStone")
-size = Vector3(4.2, 2.0, 2.8)
-
-[sub_resource type="CylinderMesh" id="Mesh_GopuramCrown"]
-material = SubResource("Mat_GopuramStone")
-top_radius = 1.0
-bottom_radius = 1.0
-height = 3.8
-
-[sub_resource type="StandardMaterial3D" id="Mat_BrassKalasam"]
-albedo_color = Color(0.92, 0.78, 0.25, 1)
-metallic = 0.8
-roughness = 0.25
-
-[sub_resource type="CylinderMesh" id="Mesh_Kalasam"]
-material = SubResource("Mat_BrassKalasam")
-top_radius = 0.02
-bottom_radius = 0.10
-height = 0.75
+[sub_resource type="BoxShape3D" id="Shape_StallTable"]
+size = Vector3(2.4, 0.8, 1.2)
 
 [sub_resource type="StandardMaterial3D" id="Mat_PalmTrunk"]
-albedo_color = Color(0.48, 0.38, 0.28, 1)
+albedo_color = Color(0.44, 0.34, 0.24, 1)
 roughness = 0.9
 
 [sub_resource type="CylinderMesh" id="Mesh_PalmTrunk"]
@@ -442,21 +416,65 @@ roughness = 0.75
 material = SubResource("Mat_PalmLeaf")
 size = Vector3(0.40, 0.04, 2.4)
 
-[sub_resource type="StandardMaterial3D" id="Mat_Saffron"]
-albedo_color = Color(0.92, 0.52, 0.15, 1)
-roughness = 0.85
+[sub_resource type="StandardMaterial3D" id="Mat_ShadeTreeFoliage"]
+albedo_color = Color(0.24, 0.52, 0.22, 1)
+roughness = 0.8
 
-[sub_resource type="BoxMesh" id="Mesh_HangingCloth1"]
-material = SubResource("Mat_Saffron")
-size = Vector3(0.85, 0.75, 0.02)
+[sub_resource type="SphereMesh" id="Mesh_ShadeTreeCanopy"]
+material = SubResource("Mat_ShadeTreeFoliage")
+radius = 2.4
+height = 3.2
 
-[sub_resource type="StandardMaterial3D" id="Mat_Turquoise"]
-albedo_color = Color(0.18, 0.65, 0.72, 1)
-roughness = 0.85
+[sub_resource type="StandardMaterial3D" id="Mat_CaveDark"]
+albedo_color = Color(0.14, 0.13, 0.12, 1)
+roughness = 0.95
 
-[sub_resource type="BoxMesh" id="Mesh_HangingCloth2"]
-material = SubResource("Mat_Turquoise")
-size = Vector3(0.95, 0.80, 0.02)
+[sub_resource type="BoxMesh" id="Mesh_CaveTunnelFloor"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(4.5, 0.2, 12.0)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveTunnelWall"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(1.0, 4.5, 12.0)
+
+[sub_resource type="BoxShape3D" id="Shape_CaveTunnelWall"]
+size = Vector3(1.0, 4.5, 12.0)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveTunnelCeiling"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(6.5, 0.6, 12.0)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveChamberFloor"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(14.0, 0.2, 12.0)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveChamberWall_NS"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(14.0, 5.0, 1.0)
+
+[sub_resource type="BoxShape3D" id="Shape_CaveChamberWall_NS"]
+size = Vector3(14.0, 5.0, 1.0)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveChamberWall_Half"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(5.5, 5.0, 1.0)
+
+[sub_resource type="BoxShape3D" id="Shape_CaveChamberWall_Half"]
+size = Vector3(5.5, 5.0, 1.0)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveChamberWall_EW"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(1.0, 5.0, 12.0)
+
+[sub_resource type="BoxShape3D" id="Shape_CaveChamberWall_EW"]
+size = Vector3(1.0, 5.0, 12.0)
+
+[sub_resource type="BoxMesh" id="Mesh_CaveChamberCeiling"]
+material = SubResource("Mat_CaveDark")
+size = Vector3(16.0, 0.6, 14.0)
+
+[sub_resource type="BoxShape3D" id="Shape_CaveRockSide"]
+size = Vector3(3.5, 4.5, 4.0)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_main_script")
@@ -465,9 +483,9 @@ script = ExtResource("1_main_script")
 environment = SubResource("Environment_1")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 16, 0)
-light_color = Color(1, 0.94, 0.82, 1)
-light_energy = 1.35
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 24, 0)
+light_color = Color(1, 0.94, 0.84, 1)
+light_energy = 1.3
 shadow_enabled = true
 shadow_bias = 0.04
 
@@ -483,16 +501,342 @@ shape = SubResource("Shape_Ground")
 mesh = SubResource("Mesh_Ground")
 
 [node name="Road_Entrance" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 11)
-mesh = SubResource("Mesh_Road_Straight")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 15)
+mesh = SubResource("Mesh_Avenue")
 
-[node name="Road_Square" type="MeshInstance3D" parent="."]
+[node name="Road_North" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -11)
+mesh = SubResource("Mesh_Avenue_North")
+
+[node name="Road_CrossStreet" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
-mesh = SubResource("Mesh_Road_Square")
+mesh = SubResource("Mesh_CrossStreet")
 
-[node name="Road_CavePath" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0.8, 0.02, -12)
-mesh = SubResource("Mesh_Road_CavePath")
+[node name="PlazaPaving" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+mesh = SubResource("Mesh_PlazaCircle")
+
+[node name="SouthEntranceGate" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 22)
+collision_layer = 1
+collision_mask = 3
+
+[node name="PillarLeft" type="MeshInstance3D" parent="SouthEntranceGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 2.1, 0)
+mesh = SubResource("Mesh_GatePillar")
+
+[node name="PillarRight" type="MeshInstance3D" parent="SouthEntranceGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 2.1, 0)
+mesh = SubResource("Mesh_GatePillar")
+
+[node name="Lintel" type="MeshInstance3D" parent="SouthEntranceGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 0)
+mesh = SubResource("Mesh_GateLintel")
+
+[node name="Roof" type="MeshInstance3D" parent="SouthEntranceGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+mesh = SubResource("Mesh_GateRoof")
+
+[node name="WallLeft" type="MeshInstance3D" parent="SouthEntranceGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.0, 0.6, 0)
+mesh = SubResource("Mesh_CompoundWall")
+
+[node name="WallRight" type="MeshInstance3D" parent="SouthEntranceGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.0, 0.6, 0)
+mesh = SubResource("Mesh_CompoundWall")
+
+[node name="ColWallLeft" type="CollisionShape3D" parent="SouthEntranceGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.0, 0.6, 0)
+shape = SubResource("Shape_CompoundWall")
+
+[node name="ColWallRight" type="CollisionShape3D" parent="SouthEntranceGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.0, 0.6, 0)
+shape = SubResource("Shape_CompoundWall")
+
+[node name="VillageTree" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+collision_layer = 1
+collision_mask = 3
+
+[node name="ChabutraMesh" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("Mesh_Chabutra")
+
+[node name="ChabutraCol" type="CollisionShape3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("Shape_Chabutra")
+
+[node name="TrunkMesh" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
+mesh = SubResource("Mesh_BanyanTrunk")
+
+[node name="TrunkCol" type="CollisionShape3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
+shape = SubResource("Shape_BanyanTrunk")
+
+[node name="Root1" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 2.05, 1.2)
+mesh = SubResource("Mesh_BanyanRoot")
+
+[node name="Root2" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 2.05, 1.2)
+mesh = SubResource("Mesh_BanyanRoot")
+
+[node name="Root3" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 2.05, -1.5)
+mesh = SubResource("Mesh_BanyanRoot")
+
+[node name="Root4" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 2.05, -1.5)
+mesh = SubResource("Mesh_BanyanRoot")
+
+[node name="CanopyCenter" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8, 0)
+mesh = SubResource("Mesh_BanyanCanopy1")
+
+[node name="CanopyFront" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 2.4)
+mesh = SubResource("Mesh_BanyanCanopy2")
+
+[node name="CanopyBack" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, -2.4)
+mesh = SubResource("Mesh_BanyanCanopy2")
+
+[node name="CanopyRight" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 5.2, 0)
+mesh = SubResource("Mesh_BanyanCanopy2")
+
+[node name="CanopyLeft" type="MeshInstance3D" parent="VillageTree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 5.2, 0)
+mesh = SubResource("Mesh_BanyanCanopy2")
+
+[node name="MarketPlaza" type="Node3D" parent="."]
+
+[node name="Stall_Yellow" type="StaticBody3D" parent="MarketPlaza"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -3.2, 0, 5.0)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Table" type="MeshInstance3D" parent="MarketPlaza/Stall_Yellow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("Mesh_StallTable")
+
+[node name="Col" type="CollisionShape3D" parent="MarketPlaza/Stall_Yellow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("Shape_StallTable")
+
+[node name="Pillar1" type="MeshInstance3D" parent="MarketPlaza/Stall_Yellow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 1.3, -0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar2" type="MeshInstance3D" parent="MarketPlaza/Stall_Yellow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.3, -0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar3" type="MeshInstance3D" parent="MarketPlaza/Stall_Yellow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 1.1, 0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar4" type="MeshInstance3D" parent="MarketPlaza/Stall_Yellow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.1, 0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Awning" type="MeshInstance3D" parent="MarketPlaza/Stall_Yellow"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 2.4, 0)
+mesh = SubResource("Mesh_AwningYellow")
+
+[node name="Stall_Red" type="StaticBody3D" parent="MarketPlaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 0, 3.8)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Table" type="MeshInstance3D" parent="MarketPlaza/Stall_Red"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("Mesh_StallTable")
+
+[node name="Col" type="CollisionShape3D" parent="MarketPlaza/Stall_Red"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("Shape_StallTable")
+
+[node name="Pillar1" type="MeshInstance3D" parent="MarketPlaza/Stall_Red"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 1.3, -0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar2" type="MeshInstance3D" parent="MarketPlaza/Stall_Red"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.3, -0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar3" type="MeshInstance3D" parent="MarketPlaza/Stall_Red"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 1.1, 0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar4" type="MeshInstance3D" parent="MarketPlaza/Stall_Red"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.1, 0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Awning" type="MeshInstance3D" parent="MarketPlaza/Stall_Red"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 2.4, 0)
+mesh = SubResource("Mesh_AwningRed")
+
+[node name="Stall_Blue" type="StaticBody3D" parent="MarketPlaza"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 2.8, 0, 5.2)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Table" type="MeshInstance3D" parent="MarketPlaza/Stall_Blue"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("Mesh_StallTable")
+
+[node name="Col" type="CollisionShape3D" parent="MarketPlaza/Stall_Blue"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("Shape_StallTable")
+
+[node name="Pillar1" type="MeshInstance3D" parent="MarketPlaza/Stall_Blue"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 1.3, -0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar2" type="MeshInstance3D" parent="MarketPlaza/Stall_Blue"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.3, -0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar3" type="MeshInstance3D" parent="MarketPlaza/Stall_Blue"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 1.1, 0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar4" type="MeshInstance3D" parent="MarketPlaza/Stall_Blue"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.1, 0.5)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Awning" type="MeshInstance3D" parent="MarketPlaza/Stall_Blue"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 2.4, 0)
+mesh = SubResource("Mesh_AwningBlue")
+
+[node name="VillageWell" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 0, -1.0)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Curb" type="MeshInstance3D" parent="VillageWell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, 0)
+mesh = SubResource("Mesh_WellCurb")
+
+[node name="Col" type="CollisionShape3D" parent="VillageWell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, 0)
+shape = SubResource("Shape_WellCurb")
+
+[node name="Pillar1" type="MeshInstance3D" parent="VillageWell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0, 1.3, -1.0)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar2" type="MeshInstance3D" parent="VillageWell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 1.3, -1.0)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar3" type="MeshInstance3D" parent="VillageWell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0, 1.3, 1.0)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Pillar4" type="MeshInstance3D" parent="VillageWell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 1.3, 1.0)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Roof" type="MeshInstance3D" parent="VillageWell"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 2.7, 0)
+mesh = SubResource("Mesh_WellRoof")
+
+[node name="KiranaShop" parent="." instance=ExtResource("7_kirana_shop")]
+transform = Transform3D(-0.015, 0, 0, 0, 0.015, 0, 0, 0, -0.015, 8.5, 0, 3.8)
+
+[node name="River" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.0, -0.15, 0)
+
+[node name="Water" type="MeshInstance3D" parent="River"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("Mesh_Water")
+
+[node name="Rock1" type="MeshInstance3D" parent="River"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 0.1, 8.0)
+mesh = SubResource("Mesh_RiverRock1")
+
+[node name="Rock2" type="MeshInstance3D" parent="River"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 0.1, 4.0)
+mesh = SubResource("Mesh_RiverRock2")
+
+[node name="Rock3" type="MeshInstance3D" parent="River"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.3, 0.1, -6.0)
+mesh = SubResource("Mesh_RiverRock1")
+
+[node name="Rock4" type="MeshInstance3D" parent="River"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0.1, 12.0)
+mesh = SubResource("Mesh_RiverRock2")
+
+[node name="Rock5" type="MeshInstance3D" parent="River"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.1, -12.0)
+mesh = SubResource("Mesh_RiverRock1")
+
+[node name="StoneBridge" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.0, 0, 0)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Deck" type="MeshInstance3D" parent="StoneBridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("Mesh_BridgeDeck")
+
+[node name="ColDeck" type="CollisionShape3D" parent="StoneBridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("Shape_CompoundWall")
+
+[node name="RailingNorth" type="MeshInstance3D" parent="StoneBridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -1.8)
+mesh = SubResource("Mesh_BridgeRailing")
+
+[node name="RailingSouth" type="MeshInstance3D" parent="StoneBridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 1.8)
+mesh = SubResource("Mesh_BridgeRailing")
+
+[node name="Farmlands" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.0, 0, 0)
+
+[node name="CropPlot1" type="MeshInstance3D" parent="Farmlands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -14.0)
+mesh = SubResource("Mesh_CropPlot")
+
+[node name="Row1_1" type="MeshInstance3D" parent="Farmlands/CropPlot1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -2.2)
+mesh = SubResource("Mesh_CropRow")
+
+[node name="Row1_2" type="MeshInstance3D" parent="Farmlands/CropPlot1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+mesh = SubResource("Mesh_CropRow")
+
+[node name="Row1_3" type="MeshInstance3D" parent="Farmlands/CropPlot1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 2.2)
+mesh = SubResource("Mesh_CropRow")
+
+[node name="CropPlot2" type="MeshInstance3D" parent="Farmlands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 14.0)
+mesh = SubResource("Mesh_CropPlot")
+
+[node name="Row2_1" type="MeshInstance3D" parent="Farmlands/CropPlot2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -2.2)
+mesh = SubResource("Mesh_CropRow")
+
+[node name="Row2_2" type="MeshInstance3D" parent="Farmlands/CropPlot2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+mesh = SubResource("Mesh_CropRow")
+
+[node name="Row2_3" type="MeshInstance3D" parent="Farmlands/CropPlot2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 2.2)
+mesh = SubResource("Mesh_CropRow")
+
+[node name="Haystack1" type="MeshInstance3D" parent="Farmlands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 1.2, -5.5)
+mesh = SubResource("Mesh_Haystack")
+
+[node name="Haystack2" type="MeshInstance3D" parent="Farmlands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.2, -8.2)
+mesh = SubResource("Mesh_Haystack")
 
 [node name="House1_Blue" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 4)
@@ -505,7 +849,7 @@ shape = SubResource("Shape_House1")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="House1_Blue"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
-mesh = SubResource("Mesh_House1_Body")
+mesh = SubResource("Mesh_House_BlueBody")
 
 [node name="Roof_Left" type="MeshInstance3D" parent="House1_Blue"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4.3, -1.2)
@@ -532,7 +876,7 @@ transform = Transform3D(0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 0, 0, 1, 
 mesh = SubResource("Mesh_Roof")
 
 [node name="House2_Yellow" type="StaticBody3D" parent="."]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 11, 0, -7)
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 12, 0, -9)
 collision_layer = 1
 collision_mask = 3
 
@@ -542,7 +886,7 @@ shape = SubResource("Shape_House2")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="House2_Yellow"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
-mesh = SubResource("Mesh_House2_Body")
+mesh = SubResource("Mesh_House_YellowBody")
 
 [node name="Door" type="MeshInstance3D" parent="House2_Yellow"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.3, 1.1, 0)
@@ -563,7 +907,7 @@ shape = SubResource("Shape_House3")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="House3_Green"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
-mesh = SubResource("Mesh_House3_Body")
+mesh = SubResource("Mesh_House_GreenBody")
 
 [node name="Door" type="MeshInstance3D" parent="House3_Green"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.55, 1.1, 0)
@@ -573,46 +917,44 @@ mesh = SubResource("Mesh_Door")
 transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 3.4, 0)
 mesh = SubResource("Mesh_Roof")
 
-[node name="KiranaShop" parent="." instance=ExtResource("7_kirana_shop")]
-transform = Transform3D(-0.015, 0, 0, 0, 0.015, 0, 0, 0, -0.015, 6.5, 0, 2.5)
-
-[node name="VillageTree" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.5)
+[node name="House4_WhiteSW" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 14)
 collision_layer = 1
 collision_mask = 3
 
-[node name="ChabutraMesh" type="MeshInstance3D" parent="VillageTree"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275, 0)
-mesh = SubResource("Mesh_Chabutra")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="House4_WhiteSW"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+shape = SubResource("Shape_HouseWhite")
 
-[node name="ChabutraCol" type="CollisionShape3D" parent="VillageTree"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275, 0)
-shape = SubResource("Shape_Chabutra")
+[node name="BodyMesh" type="MeshInstance3D" parent="House4_WhiteSW"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+mesh = SubResource("Mesh_House_WhiteBody")
 
-[node name="TrunkMesh" type="MeshInstance3D" parent="VillageTree"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
-mesh = SubResource("Mesh_TreeTrunk")
+[node name="Roof" type="MeshInstance3D" parent="House4_WhiteSW"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+mesh = SubResource("Mesh_Roof")
 
-[node name="TrunkCol" type="CollisionShape3D" parent="VillageTree"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
-shape = SubResource("Shape_TreeTrunk")
+[node name="House5_WhiteSE" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 14)
+collision_layer = 1
+collision_mask = 3
 
-[node name="Canopy1" type="MeshInstance3D" parent="VillageTree"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
-mesh = SubResource("Mesh_Canopy1")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="House5_WhiteSE"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+shape = SubResource("Shape_HouseWhite")
 
-[node name="Canopy2" type="MeshInstance3D" parent="VillageTree"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 5.2, 1.2)
-mesh = SubResource("Mesh_Canopy2")
+[node name="BodyMesh" type="MeshInstance3D" parent="House5_WhiteSE"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+mesh = SubResource("Mesh_House_WhiteBody")
 
-[node name="Canopy3" type="MeshInstance3D" parent="VillageTree"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 5.0, -1.0)
-mesh = SubResource("Mesh_Canopy2")
+[node name="Roof" type="MeshInstance3D" parent="House5_WhiteSE"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+mesh = SubResource("Mesh_Roof")
 
 [node name="Props" type="Node3D" parent="."]
 
 [node name="Charpai" type="StaticBody3D" parent="Props"]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -6.8, 0, 5.2)
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 5.0, 0, 1.5)
 collision_layer = 1
 collision_mask = 3
 
@@ -625,202 +967,181 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 shape = SubResource("Shape_Bed")
 
 [node name="Matka1" type="MeshInstance3D" parent="Props"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.25, 2.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8, 0.25, 0.8)
 mesh = SubResource("Mesh_Matka")
 
 [node name="Matka2" type="MeshInstance3D" parent="Props"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.1, 0.25, 2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 0.25, 0.6)
 mesh = SubResource("Mesh_Matka")
 
-[node name="Crates" type="StaticBody3D" parent="Props"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, -3.5)
+[node name="Kettle" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 0.45, 1.4)
+mesh = SubResource("Mesh_Kettle")
+
+[node name="TempleComplex" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -22)
+
+[node name="Terrace" type="StaticBody3D" parent="TempleComplex"]
 collision_layer = 1
 collision_mask = 3
 
-[node name="CrateMesh1" type="MeshInstance3D" parent="Props/Crates"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-mesh = SubResource("Mesh_Crate")
+[node name="TerraceMesh" type="MeshInstance3D" parent="TempleComplex/Terrace"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("Mesh_TempleTerrace")
 
-[node name="CrateCol" type="CollisionShape3D" parent="Props/Crates"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-shape = SubResource("Shape_Crate")
+[node name="TerraceCol" type="CollisionShape3D" parent="TempleComplex/Terrace"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("Shape_TempleTerrace")
 
-[node name="Scooter" type="StaticBody3D" parent="Props"]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 5.2, 0, 3.8)
-collision_layer = 1
-collision_mask = 3
+[node name="Stairs" type="MeshInstance3D" parent="TempleComplex"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 7.5)
+mesh = SubResource("Mesh_TempleStairs")
 
-[node name="Body" type="MeshInstance3D" parent="Props/Scooter"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
-mesh = SubResource("Mesh_ScooterBody")
+[node name="TempleGopuram" type="Node3D" parent="TempleComplex"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -1.0)
 
-[node name="Apron" type="MeshInstance3D" parent="Props/Scooter"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.55, -0.6)
-mesh = SubResource("Mesh_ScooterApron")
-
-[node name="WheelFront" type="MeshInstance3D" parent="Props/Scooter"]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0.20, -0.55)
-mesh = SubResource("Mesh_ScooterWheel")
-
-[node name="WheelRear" type="MeshInstance3D" parent="Props/Scooter"]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0.20, 0.5)
-mesh = SubResource("Mesh_ScooterWheel")
-
-[node name="Seat" type="MeshInstance3D" parent="Props/Scooter"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0.1)
-mesh = SubResource("Mesh_ScooterSeat")
-
-[node name="Headlight" type="MeshInstance3D" parent="Props/Scooter"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, -0.65)
-mesh = SubResource("Mesh_Headlight")
-
-[node name="WaterTankTower" type="StaticBody3D" parent="Props"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.2, 0, -5.2)
-collision_layer = 1
-collision_mask = 3
-
-[node name="Leg1" type="MeshInstance3D" parent="Props/WaterTankTower"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 3.75, -1.2)
-mesh = SubResource("Mesh_TowerLeg")
-
-[node name="Leg2" type="MeshInstance3D" parent="Props/WaterTankTower"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 3.75, -1.2)
-mesh = SubResource("Mesh_TowerLeg")
-
-[node name="Leg3" type="MeshInstance3D" parent="Props/WaterTankTower"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 3.75, 1.2)
-mesh = SubResource("Mesh_TowerLeg")
-
-[node name="Leg4" type="MeshInstance3D" parent="Props/WaterTankTower"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 3.75, 1.2)
-mesh = SubResource("Mesh_TowerLeg")
-
-[node name="Platform" type="MeshInstance3D" parent="Props/WaterTankTower"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 0)
-mesh = SubResource("Mesh_TowerPlatform")
-
-[node name="TankBody" type="MeshInstance3D" parent="Props/WaterTankTower"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.7, 0)
-mesh = SubResource("Mesh_WaterTankBody")
-
-[node name="TankCone" type="MeshInstance3D" parent="Props/WaterTankTower"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.05, 0)
-mesh = SubResource("Mesh_WaterTankCone")
-
-[node name="UtilityPoles" type="Node3D" parent="Props"]
-
-[node name="Pole1" type="MeshInstance3D" parent="Props/UtilityPoles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 3.4, 7.5)
-mesh = SubResource("Mesh_UtilityPole")
-
-[node name="Crossarm1" type="MeshInstance3D" parent="Props/UtilityPoles/Pole1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
-mesh = SubResource("Mesh_PoleCrossarm")
-
-[node name="Pole2" type="MeshInstance3D" parent="Props/UtilityPoles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 3.4, -0.8)
-mesh = SubResource("Mesh_UtilityPole")
-
-[node name="Crossarm2" type="MeshInstance3D" parent="Props/UtilityPoles/Pole2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
-mesh = SubResource("Mesh_PoleCrossarm")
-
-[node name="Wire1" type="MeshInstance3D" parent="Props/UtilityPoles"]
-transform = Transform3D(0.642788, 0, 0.766044, 0, 1, 0, -0.766044, 0, 0.642788, 0.35, 6.2, 3.35)
-mesh = SubResource("Mesh_Wire1")
-
-[node name="TempleGopuram" type="Node3D" parent="Props"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -48.0)
-
-[node name="Tier1" type="MeshInstance3D" parent="Props/TempleGopuram"]
+[node name="Tier1" type="MeshInstance3D" parent="TempleComplex/TempleGopuram"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 mesh = SubResource("Mesh_Gopuram1")
 
-[node name="Tier2" type="MeshInstance3D" parent="Props/TempleGopuram"]
+[node name="Tier2" type="MeshInstance3D" parent="TempleComplex/TempleGopuram"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0, 0)
 mesh = SubResource("Mesh_Gopuram2")
 
-[node name="Tier3" type="MeshInstance3D" parent="Props/TempleGopuram"]
+[node name="Tier3" type="MeshInstance3D" parent="TempleComplex/TempleGopuram"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.75, 0)
 mesh = SubResource("Mesh_Gopuram3")
 
-[node name="Tier4" type="MeshInstance3D" parent="Props/TempleGopuram"]
+[node name="Tier4" type="MeshInstance3D" parent="TempleComplex/TempleGopuram"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.0, 0)
 mesh = SubResource("Mesh_Gopuram4")
 
-[node name="Crown" type="MeshInstance3D" parent="Props/TempleGopuram"]
+[node name="Crown" type="MeshInstance3D" parent="TempleComplex/TempleGopuram"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 11.5, 0)
 mesh = SubResource("Mesh_GopuramCrown")
 
-[node name="Kalasam1" type="MeshInstance3D" parent="Props/TempleGopuram"]
+[node name="Kalasam1" type="MeshInstance3D" parent="TempleComplex/TempleGopuram"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 13.0, 0)
 mesh = SubResource("Mesh_Kalasam")
 
-[node name="Kalasam2" type="MeshInstance3D" parent="Props/TempleGopuram"]
+[node name="Kalasam2" type="MeshInstance3D" parent="TempleComplex/TempleGopuram"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.1, 0)
 mesh = SubResource("Mesh_Kalasam")
 
-[node name="Kalasam3" type="MeshInstance3D" parent="Props/TempleGopuram"]
+[node name="Kalasam3" type="MeshInstance3D" parent="TempleComplex/TempleGopuram"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 13.0, 0)
 mesh = SubResource("Mesh_Kalasam")
 
-[node name="PalmTrees" type="Node3D" parent="Props"]
+[node name="PalmTrees" type="Node3D" parent="."]
 
-[node name="Palm1" type="Node3D" parent="Props/PalmTrees"]
-transform = Transform3D(0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 0, 0, 1, -8.5, 0, 8.0)
+[node name="Palm1" type="Node3D" parent="PalmTrees"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.0, 0, 10.0)
 
-[node name="Trunk" type="MeshInstance3D" parent="Props/PalmTrees/Palm1"]
+[node name="Trunk" type="MeshInstance3D" parent="PalmTrees/Palm1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75, 0)
 mesh = SubResource("Mesh_PalmTrunk")
 
-[node name="Frond1" type="MeshInstance3D" parent="Props/PalmTrees/Palm1"]
+[node name="Frond1" type="MeshInstance3D" parent="PalmTrees/Palm1"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7.3, 1.2)
 mesh = SubResource("Mesh_PalmFrond")
 
-[node name="Frond2" type="MeshInstance3D" parent="Props/PalmTrees/Palm1"]
+[node name="Frond2" type="MeshInstance3D" parent="PalmTrees/Palm1"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 7.3, -1.2)
 mesh = SubResource("Mesh_PalmFrond")
 
-[node name="Frond3" type="MeshInstance3D" parent="Props/PalmTrees/Palm1"]
+[node name="Frond3" type="MeshInstance3D" parent="PalmTrees/Palm1"]
 transform = Transform3D(0, 0, 1, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 1.2, 7.3, 0)
 mesh = SubResource("Mesh_PalmFrond")
 
-[node name="Frond4" type="MeshInstance3D" parent="Props/PalmTrees/Palm1"]
+[node name="Frond4" type="MeshInstance3D" parent="PalmTrees/Palm1"]
 transform = Transform3D(0, 0, 1, -0.5, 0.866025, 0, -0.866025, -0.5, 0, -1.2, 7.3, 0)
 mesh = SubResource("Mesh_PalmFrond")
 
-[node name="Palm2" type="Node3D" parent="Props/PalmTrees"]
-transform = Transform3D(0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 0, 0, 1, 10.5, 0, 4.5)
+[node name="Palm2" type="Node3D" parent="PalmTrees"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.0, 0, -10.0)
 
-[node name="Trunk" type="MeshInstance3D" parent="Props/PalmTrees/Palm2"]
+[node name="Trunk" type="MeshInstance3D" parent="PalmTrees/Palm2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75, 0)
 mesh = SubResource("Mesh_PalmTrunk")
 
-[node name="Frond1" type="MeshInstance3D" parent="Props/PalmTrees/Palm2"]
+[node name="Frond1" type="MeshInstance3D" parent="PalmTrees/Palm2"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7.3, 1.2)
 mesh = SubResource("Mesh_PalmFrond")
 
-[node name="Frond2" type="MeshInstance3D" parent="Props/PalmTrees/Palm2"]
+[node name="Frond2" type="MeshInstance3D" parent="PalmTrees/Palm2"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 7.3, -1.2)
 mesh = SubResource("Mesh_PalmFrond")
 
-[node name="Frond3" type="MeshInstance3D" parent="Props/PalmTrees/Palm2"]
+[node name="Frond3" type="MeshInstance3D" parent="PalmTrees/Palm2"]
 transform = Transform3D(0, 0, 1, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 1.2, 7.3, 0)
 mesh = SubResource("Mesh_PalmFrond")
 
-[node name="Clothesline" type="Node3D" parent="Props"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.0, 1.6, 6.0)
+[node name="Palm3" type="Node3D" parent="PalmTrees"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.0, 0, -22.0)
 
-[node name="Cloth1" type="MeshInstance3D" parent="Props/Clothesline"]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -0.6, -0.3, 0)
-mesh = SubResource("Mesh_HangingCloth1")
+[node name="Trunk" type="MeshInstance3D" parent="PalmTrees/Palm3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75, 0)
+mesh = SubResource("Mesh_PalmTrunk")
 
-[node name="Cloth2" type="MeshInstance3D" parent="Props/Clothesline"]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.6, -0.3, 0)
-mesh = SubResource("Mesh_HangingCloth2")
+[node name="Frond1" type="MeshInstance3D" parent="PalmTrees/Palm3"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7.3, 1.2)
+mesh = SubResource("Mesh_PalmFrond")
+
+[node name="Frond2" type="MeshInstance3D" parent="PalmTrees/Palm3"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 7.3, -1.2)
+mesh = SubResource("Mesh_PalmFrond")
+
+[node name="Frond3" type="MeshInstance3D" parent="PalmTrees/Palm3"]
+transform = Transform3D(0, 0, 1, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 1.2, 7.3, 0)
+mesh = SubResource("Mesh_PalmFrond")
+
+[node name="Palm4" type="Node3D" parent="PalmTrees"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.0, 0, -22.0)
+
+[node name="Trunk" type="MeshInstance3D" parent="PalmTrees/Palm4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75, 0)
+mesh = SubResource("Mesh_PalmTrunk")
+
+[node name="Frond1" type="MeshInstance3D" parent="PalmTrees/Palm4"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7.3, 1.2)
+mesh = SubResource("Mesh_PalmFrond")
+
+[node name="Frond2" type="MeshInstance3D" parent="PalmTrees/Palm4"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 7.3, -1.2)
+mesh = SubResource("Mesh_PalmFrond")
+
+[node name="Frond3" type="MeshInstance3D" parent="PalmTrees/Palm4"]
+transform = Transform3D(0, 0, 1, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 1.2, 7.3, 0)
+mesh = SubResource("Mesh_PalmFrond")
+
+[node name="ShadeTree1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0, 0, 18.0)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Trunk" type="MeshInstance3D" parent="ShadeTree1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Canopy" type="MeshInstance3D" parent="ShadeTree1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 0)
+mesh = SubResource("Mesh_ShadeTreeCanopy")
+
+[node name="ShadeTree2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.0, 0, 18.0)
+collision_layer = 1
+collision_mask = 3
+
+[node name="Trunk" type="MeshInstance3D" parent="ShadeTree2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("Mesh_Pillar")
+
+[node name="Canopy" type="MeshInstance3D" parent="ShadeTree2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 0)
+mesh = SubResource("Mesh_ShadeTreeCanopy")
 
 [node name="CaveEntrance" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -21)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -22)
 collision_layer = 1
 collision_mask = 3
 
@@ -835,18 +1156,6 @@ shape = SubResource("Shape_CaveRockSide")
 [node name="RockRightCol" type="CollisionShape3D" parent="CaveEntrance"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 2.2, 0)
 shape = SubResource("Shape_CaveRockSide")
-
-[node name="RockLeft" type="MeshInstance3D" parent="CaveEntrance"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 2.5, 0)
-mesh = SubResource("Mesh_House2_Body")
-
-[node name="RockRight" type="MeshInstance3D" parent="CaveEntrance"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 2.5, 0)
-mesh = SubResource("Mesh_House2_Body")
-
-[node name="RockTop" type="MeshInstance3D" parent="CaveEntrance"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0, 0)
-mesh = SubResource("Mesh_Roof")
 
 [node name="CaveInterior" type="Node3D" parent="."]
 
