@@ -1,0 +1,133 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/cave_note.gd" id="1_script"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_altar"]
+top_radius = 0.5
+bottom_radius = 0.6
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_DarkStone"]
+albedo_color = Color(0.25, 0.22, 0.22, 1)
+roughness = 0.95
+
+[sub_resource type="CylinderMesh" id="Mesh_Altar"]
+material = SubResource("Mat_DarkStone")
+top_radius = 0.5
+bottom_radius = 0.6
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Parchment"]
+albedo_color = Color(0.95, 0.9, 0.78, 1)
+roughness = 0.8
+emission_enabled = true
+emission = Color(0.9, 0.8, 0.6, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="BoxMesh" id="Mesh_Note"]
+material = SubResource("Mat_Parchment")
+size = Vector3(0.35, 0.04, 0.28)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Crystal"]
+albedo_color = Color(0.2, 0.8, 0.95, 1)
+roughness = 0.1
+emission_enabled = true
+emission = Color(0.3, 0.85, 1.0, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="SphereMesh" id="Mesh_Crystal"]
+material = SubResource("Mat_Crystal")
+radius = 0.12
+height = 0.24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CaveNote"]
+bg_color = Color(0.1, 0.09, 0.08, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.9, 0.7, 0.3, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 10
+
+[node name="CaveNote" type="StaticBody3D" groups=["interactable"]]
+collision_layer = 1
+collision_mask = 3
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CylinderShape3D_altar")
+
+[node name="AltarMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("Mesh_Altar")
+
+[node name="NoteMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 1.03, 0)
+mesh = SubResource("Mesh_Note")
+
+[node name="CrystalMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh_Crystal")
+
+[node name="AuraLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+light_color = Color(0.4, 0.85, 1, 1)
+light_energy = 1.6
+omni_range = 7.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="NotePanel" type="PanelContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -110.0
+offset_right = 300.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_CaveNote")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/NotePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/NotePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderLabel" type="Label" parent="CanvasLayer/NotePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 18
+text = "📜 ANCIENT CAVE INSCRIPTION"
+horizontal_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="CanvasLayer/NotePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "\"YOUR WORK IS TO GO BACK TO THE OLD MAN.\""
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="CloseLabel" type="Label" parent="CanvasLayer/NotePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "[Press E or Space to close]"
+horizontal_alignment = 1
