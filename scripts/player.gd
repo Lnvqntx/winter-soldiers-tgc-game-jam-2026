@@ -103,6 +103,9 @@ func _ready() -> void:
 	if camera:
 		camera.fov = camera_fov
 
+	floor_snap_length = 0.4
+	floor_max_angle = deg_to_rad(50.0)
+
 	# Start initial animation
 	_play_anim(anim_idle, 0.0)
 

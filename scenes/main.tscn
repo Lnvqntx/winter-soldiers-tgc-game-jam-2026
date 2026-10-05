@@ -46,11 +46,11 @@ size = Vector3(130, 20, 2)
 [sub_resource type="BoxShape3D" id="Shape_Wall_EW"]
 size = Vector3(2, 20, 220)
 
-[sub_resource type="BoxShape3D" id="Shape_TempleTerrace"]
-size = Vector3(26, 1.1, 24)
+[sub_resource type="ConvexPolygonShape3D" id="Shape_TempleWedge"]
+points = PackedVector3Array(-3.5, 0, -8, 3.5, 0, -8, -3.5, 1.85, -14.6, 3.5, 1.85, -14.6, -3.5, -0.5, -8, 3.5, -0.5, -8, -3.5, -0.5, -14.6, 3.5, -0.5, -14.6)
 
-[sub_resource type="BoxShape3D" id="Shape_TempleStairs"]
-size = Vector3(8.0, 1.1, 4.0)
+[sub_resource type="ConvexPolygonShape3D" id="Shape_TempleWedgeBack"]
+points = PackedVector3Array(4, 1.85, -36.5, 8, 1.85, -36.5, 4, 0, -43, 8, 0, -43, 4, -0.5, -36.5, 8, -0.5, -36.5, 4, -0.5, -43, 8, -0.5, -43)
 
 [sub_resource type="BoxShape3D" id="Shape_House1"]
 size = Vector3(7.5, 4.2, 7.5)
@@ -248,17 +248,19 @@ shape = SubResource("Shape_Wall_EW")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58, 8, -45)
 shape = SubResource("Shape_Wall_EW")
 
-[node name="TempleTerraceCol" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, -25.3)
+[node name="TempleWedgeRamp" type="StaticBody3D" parent="."]
 collision_layer = 1
 collision_mask = 3
 
-[node name="Col" type="CollisionShape3D" parent="TempleTerraceCol"]
-shape = SubResource("Shape_TempleTerrace")
+[node name="Col" type="CollisionShape3D" parent="TempleWedgeRamp"]
+shape = SubResource("Shape_TempleWedge")
 
-[node name="StairsCol" type="CollisionShape3D" parent="TempleTerraceCol"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 13.8)
-shape = SubResource("Shape_TempleStairs")
+[node name="TempleWedgeRampBack" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 3
+
+[node name="Col" type="CollisionShape3D" parent="TempleWedgeRampBack"]
+shape = SubResource("Shape_TempleWedgeBack")
 
 [node name="House1_Blue" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.4, 0, 4.0)
@@ -376,7 +378,7 @@ omni_range = 10.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Chicken" parent="." instance=ExtResource("3_chicken")]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.2, 0.05, -1.8)
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -6.5, 0.35, 3.5)
 
 [node name="EndingTable" parent="." instance=ExtResource("5_ending_table")]
 transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 3.8, 0.9, 1.2)

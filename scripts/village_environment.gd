@@ -25,9 +25,9 @@ func _create_village_collisions(node: Node) -> void:
 				or pname.begins_with("8_") or pname.begins_with("10_") or pname.begins_with("11_") \
 				or pname.begins_with("12_"):
 				
-				# Filter out canopy leaves so player isn't blocked by floating leaf cards
+				# Filter out canopy leaves so player isn't blocked by floating leaf cards, and Mesh104 (temple rear wall arch) to open the forest path
 				var n_low = node.name.to_lower()
-				if not n_low.contains("leaf") and not n_low.contains("flora") and not n_low.contains("canopy"):
+				if not n_low.contains("leaf") and not n_low.contains("flora") and not n_low.contains("canopy") and node.name != "Mesh104":
 					should_collide = true
 				break
 			p = p.get_parent()

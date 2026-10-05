@@ -24,52 +24,46 @@ var state: ChickenState = ChickenState.IDLE
 var has_lantern: bool = true
 var player_ref: Node3D = null
 
-# Multi-stage village chase route giving the player plenty of time and fun pursuit!
+# Multi-stage village to forest cave chase route giving the player plenty of time and fun pursuit!
 var chase_stages: Array = [
 	# Leg 0: Scurrying past the bazaar stalls & market
 	[
-		Vector3(-5.5, 0.35, 2.5),
-		Vector3(-9.0, 0.35, 6.5),
-		Vector3(-12.5, 0.35, 10.5),
-		Vector3(-10.0, 0.35, 14.5)
+		Vector3(-6.5, 0.35, 1.0),
+		Vector3(-6.5, 0.35, -4.0),
+		Vector3(-6.5, 0.35, -8.0)
 	],
-	# Leg 1: Dashing around the Tea Stall into the south road
+	# Leg 1: Dashing across the plaza towards the temple grand gopuram gate
 	[
-		Vector3(-7.0, 0.35, 17.5),
-		Vector3(-3.0, 0.35, 15.0),
-		Vector3(1.5, 0.35, 11.5),
-		Vector3(4.5, 0.35, 8.5)
+		Vector3(0.0, 0.35, -8.0),
+		Vector3(0.0, 1.85, -15.0),
+		Vector3(0.0, 1.85, -18.0)
 	],
-	# Leg 2: Crossing back east towards the village well & haveli
+	# Leg 2: Scurrying past the east temple colonnade to the rear forest exit
 	[
-		Vector3(7.5, 0.35, 5.0),
-		Vector3(11.5, 0.35, 1.5),
-		Vector3(13.5, 0.35, -4.0),
-		Vector3(10.5, 0.35, -8.5)
+		Vector3(6.0, 1.85, -20.0),
+		Vector3(6.0, 1.85, -32.0),
+		Vector3(6.0, 1.85, -36.0),
+		Vector3(6.0, 0.35, -44.0)
 	],
-	# Leg 3: Zig-zagging across the temple square terrace
+	# Leg 3: Scurrying deep into the tropical forest panorama trail
 	[
-		Vector3(6.0, 0.35, -13.0),
-		Vector3(1.0, 0.35, -17.5),
-		Vector3(-4.0, 0.35, -19.0),
-		Vector3(-8.5, 0.35, -15.0)
+		Vector3(5.0, 0.35, -55.0),
+		Vector3(4.0, 0.35, -66.0),
+		Vector3(3.0, 0.35, -76.0)
 	],
-	# Leg 4: Panic dash to the northern forest trailhead dead-end
+	# Leg 4: Final panic dash right up to the dark mysterious Cave mouth
 	[
-		Vector3(-6.0, 0.35, -11.5),
-		Vector3(-1.5, 0.35, -13.5),
-		Vector3(3.5, 0.35, -15.5),
-		Vector3(7.2, 0.35, -18.0)
+		Vector3(3.0, 0.35, -82.0)
 	]
 ]
 
-# Legacy waypoints list for backward compatibility with scripts/tests
+# Waypoints list for backward compatibility with scripts and automated tests
 var waypoints: Array[Vector3] = [
-	Vector3(-10.0, 0.35, 14.5),
-	Vector3(4.5, 0.35, 8.5),
-	Vector3(10.5, 0.35, -8.5),
-	Vector3(-8.5, 0.35, -15.0),
-	Vector3(7.2, 0.35, -18.0)
+	Vector3(-6.5, 0.35, -8.0),
+	Vector3(0.0, 1.85, -18.0),
+	Vector3(6.0, 0.35, -44.0),
+	Vector3(3.0, 0.35, -76.0),
+	Vector3(3.0, 0.35, -82.0)
 ]
 var current_waypoint_idx: int = 0
 
@@ -85,6 +79,8 @@ var base_y: float = 0.35
 
 func _ready() -> void:
 	add_to_group("interactable")
+	floor_snap_length = 0.4
+	floor_max_angle = deg_to_rad(50.0)
 	base_y = position.y
 	_update_badge()
 
@@ -124,7 +120,7 @@ func _process_idle(delta: float) -> void:
 	# Check distance to player
 	if player_ref and GameState.current_state >= GameState.State.CHICKEN_QUEST:
 		var dist = global_position.distance_to(player_ref.global_position)
-		if dist < 6.5:
+		if dist < 5.0:
 			trigger_alert()
 
 func trigger_alert() -> void:
@@ -136,7 +132,7 @@ func trigger_alert() -> void:
 		head_root.rotation.y = PI # Look back at player
 	_update_badge()
 	if player_ref and player_ref.has_method("show_monologue"):
-		player_ref.show_monologue("PLAYER: \"Arre! Ruk!\"", 2.2)
+		player_ref.show_monologue("PLAYER: \"Arey! That's the missing chicken holding a lantern?! Ruk!\"", 2.6)
 
 func _process_alert(delta: float) -> void:
 	if not is_on_floor():
@@ -246,16 +242,16 @@ func _advance_to_next_stage() -> void:
 	if player_ref and player_ref.has_method("show_monologue"):
 		match current_stage:
 			1:
-				player_ref.show_monologue("PLAYER: \"Abey ruk na!\"", 2.2)
+				player_ref.show_monologue("PLAYER: \"Abey yeh mandir ke andar kyun bhaag gayi?!\"", 2.4)
 			2:
-				player_ref.show_monologue("PLAYER: \"Yeh chicken Olympic runner hai kya?!\"", 2.4)
+				player_ref.show_monologue("PLAYER: \"Wait! Mandir se bahar nikal rahi hai!\"", 2.4)
 			3:
-				player_ref.show_monologue("PLAYER: \"Seriously?! How is she this fast?!\"", 2.4)
+				player_ref.show_monologue("PLAYER: \"Yeh chicken jungle mein kyun jaa rahi hai?!\"", 2.6)
 			4:
-				player_ref.show_monologue("PLAYER: \"Yeh chicken jungle mein kyun jaa rahi hai?\"", 3.0)
+				player_ref.show_monologue("PLAYER: \"Seriously?! In the jungle?! How is she this fast?!\"", 2.6)
 				get_tree().create_timer(3.2).timeout.connect(func():
 					if player_ref and player_ref.has_method("show_monologue"):
-						player_ref.show_monologue("PLAYER: \"Finally cornered you! Wait... what is that in her beak?\"", 3.2)
+						player_ref.show_monologue("PLAYER: \"Finally cornered you outside the cave! What is that in her beak?!\"", 3.2)
 				)
 
 	if current_stage >= chase_stages.size():
@@ -290,12 +286,22 @@ func _update_badge() -> void:
 	match state:
 		ChickenState.IDLE:
 			if GameState.current_state >= GameState.State.CHICKEN_QUEST and has_lantern:
-				badge.text = "🐔"
+				badge.text = "🐔 MISSING CHICKEN"
 				badge.visible = true
 			else:
-				badge.visible = false
-		ChickenState.ALERT, ChickenState.RUNNING, ChickenState.CORNERED:
-			badge.text = "🐔"
+				badge.text = "🐔"
+				badge.visible = true
+		ChickenState.ALERT:
+			badge.text = "🐔 !!"
+			badge.visible = true
+		ChickenState.RUNNING:
+			if is_taunting:
+				badge.text = "🐔 [Catch me!]"
+			else:
+				badge.text = "🐔 [Running!]"
+			badge.visible = true
+		ChickenState.CORNERED:
+			badge.text = "🐔 [E] CATCH & TAKE LANTERN"
 			badge.visible = true
 		ChickenState.CAUGHT:
 			badge.visible = false
