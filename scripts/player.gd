@@ -44,6 +44,13 @@ enum State {
 @onready var interact_ray: RayCast3D = $CamPivot/SpringArm3D/Camera3D/InteractRay
 @onready var interact_prompt: Label = $HUD/InteractPrompt
 @onready var status_label: Label = $HUD/StatusLabel
+@onready var quest_tracker: PanelContainer = $HUD.get_node_or_null("QuestTracker")
+@onready var quest_title: Label = $HUD.get_node_or_null("QuestTracker/VBox/QuestTitle")
+@onready var quest_hint: Label = $HUD.get_node_or_null("QuestTracker/VBox/QuestHint")
+@onready var waypoint_marker: PanelContainer = $HUD.get_node_or_null("WaypointMarker")
+@onready var waypoint_icon: Label = $HUD.get_node_or_null("WaypointMarker/HBox/Icon")
+@onready var waypoint_name: Label = $HUD.get_node_or_null("WaypointMarker/HBox/TargetName")
+@onready var waypoint_dist: Label = $HUD.get_node_or_null("WaypointMarker/HBox/Distance")
 
 # Animation player from imported UAL1_Standard.glb
 @onready var anim_player: AnimationPlayer = $MeshRoot/CharacterModel/AnimationPlayer
@@ -59,6 +66,9 @@ var current_anim: String = ""
 var land_timer: float = 0.0
 var was_on_floor: bool = true
 var prev_vertical_vel: float = 0.0
+var last_safe_pos: Vector3 = Vector3(0, 0.5, 12)
+
+const IndianBoyMesh = preload("res://scripts/indian_boy_mesh.gd")
 
 func _ready() -> void:
 	_ensure_input_mappings()
@@ -68,8 +78,17 @@ func _ready() -> void:
 	if status_label:
 		status_label.text = "LENAL — Stylized Indian Comic Adventure"
 	var gs = get_node_or_null("/root/GameState")
-	if gs and gs.has_signal("objective_updated"):
-		gs.objective_updated.connect(_on_objective_updated)
+	if gs:
+		if gs.has_signal("objective_updated"):
+			gs.objective_updated.connect(_on_objective_updated)
+		if gs.has_signal("state_changed"):
+			gs.state_changed.connect(_on_state_changed)
+		_update_quest_info(gs.current_state)
+
+	# Initialize Teenage Indian Boy character visuals
+	var char_model: Node3D = $MeshRoot.get_node_or_null("CharacterModel")
+	if char_model:
+		IndianBoyMesh.setup_character(char_model)
 
 	# Read global mouse sensitivity if configured
 	if SFX and "mouse_sensitivity_setting" in SFX:
@@ -148,6 +167,12 @@ func _physics_process(delta: float) -> void:
 		var falling_speed := prev_vertical_vel
 		prev_vertical_vel = velocity.y
 		move_and_slide()
+		if is_on_floor() and global_position.y >= -0.2:
+			last_safe_pos = global_position
+		elif global_position.y < -6.0:
+			velocity = Vector3.ZERO
+			global_position = last_safe_pos + Vector3(0, 0.6, 0)
+			prev_vertical_vel = 0.0
 		_update_animation_state(delta, false, false, falling_speed)
 		_update_hud(delta)
 		was_on_floor = is_on_floor()
@@ -191,6 +216,15 @@ func _physics_process(delta: float) -> void:
 	prev_vertical_vel = velocity.y
 
 	move_and_slide()
+
+	# Safe ground tracking & Void fall rescue
+	if is_on_floor() and global_position.y >= -0.2:
+		last_safe_pos = global_position
+	elif global_position.y < -6.0:
+		velocity = Vector3.ZERO
+		global_position = last_safe_pos + Vector3(0, 0.6, 0)
+		prev_vertical_vel = 0.0
+		show_status_message("Arre bhai! Sambhal ke! (Careful!)", 2.5)
 
 	# Rotate character mesh smoothly toward movement direction
 	if has_input and move_dir.length_squared() > 0.01:
@@ -316,6 +350,73 @@ func _perform_interaction(obj: Node) -> void:
 	
 	show_status_message(response_msg)
 
+var monologue_panel: PanelContainer = null
+var monologue_label: Label = null
+var monologue_timer: float = 0.0
+
+func _setup_monologue_ui() -> void:
+	if monologue_panel != null:
+		return
+	var hud_node = get_node_or_null("HUD")
+	if not hud_node:
+		return
+	
+	monologue_panel = PanelContainer.new()
+	monologue_panel.name = "MonologueBox"
+	monologue_panel.anchors_preset = Control.PRESET_CENTER_BOTTOM
+	monologue_panel.anchor_left = 0.5
+	monologue_panel.anchor_right = 0.5
+	monologue_panel.anchor_top = 1.0
+	monologue_panel.anchor_bottom = 1.0
+	monologue_panel.offset_left = -300.0
+	monologue_panel.offset_right = 300.0
+	monologue_panel.offset_top = -140.0
+	monologue_panel.offset_bottom = -88.0
+	monologue_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	monologue_panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	monologue_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
+	var sb = StyleBoxFlat.new()
+	sb.bg_color = Color(0.1, 0.08, 0.06, 0.92)
+	sb.border_width_left = 2
+	sb.border_width_top = 2
+	sb.border_width_right = 2
+	sb.border_width_bottom = 2
+	sb.border_color = Color(0.95, 0.75, 0.22, 1.0)
+	sb.corner_radius_top_left = 8
+	sb.corner_radius_top_right = 8
+	sb.corner_radius_bottom_right = 8
+	sb.corner_radius_bottom_left = 8
+	sb.content_margin_left = 18.0
+	sb.content_margin_right = 18.0
+	sb.content_margin_top = 8.0
+	sb.content_margin_bottom = 8.0
+	sb.shadow_size = 8
+	sb.shadow_color = Color(0, 0, 0, 0.5)
+	monologue_panel.add_theme_stylebox_override("panel", sb)
+	
+	monologue_label = Label.new()
+	monologue_label.name = "Text"
+	monologue_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	monologue_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	monologue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	monologue_label.add_theme_color_override("font_color", Color(1, 0.96, 0.88, 1))
+	monologue_label.add_theme_font_size_override("font_size", 16)
+	monologue_panel.add_child(monologue_label)
+	
+	hud_node.add_child(monologue_panel)
+	monologue_panel.visible = false
+
+func show_monologue(text: String, duration: float = 3.5) -> void:
+	if not monologue_panel:
+		_setup_monologue_ui()
+	if monologue_label:
+		monologue_label.text = text
+	if monologue_panel:
+		monologue_panel.visible = true
+		monologue_panel.modulate.a = 1.0
+	monologue_timer = duration
+
 func show_status_message(msg: String, duration: float = 3.5) -> void:
 	if status_label:
 		status_label.text = msg
@@ -326,3 +427,108 @@ func _update_hud(delta: float) -> void:
 		status_timer -= delta
 		if status_timer <= 0.0 and status_label:
 			status_label.text = "LENAL — Stylized Indian Village Adventure"
+	if monologue_timer > 0.0:
+		monologue_timer -= delta
+		if monologue_timer <= 0.0 and monologue_panel:
+			var tween = create_tween()
+			tween.tween_property(monologue_panel, "modulate:a", 0.0, 0.3)
+			tween.tween_callback(func(): if monologue_panel: monologue_panel.visible = false)
+	_update_waypoint()
+
+func _on_state_changed(new_state: int) -> void:
+	_update_quest_info(new_state)
+
+func _update_quest_info(state_val: int) -> void:
+	if not quest_title or not quest_hint:
+		return
+	match state_val:
+		0: # START
+			quest_title.text = "Talk to the Old Man"
+			quest_hint.text = "Find the old man sitting on the charpai near the village plaza"
+		1: # CHICKEN_QUEST
+			quest_title.text = "🐔 FIND THE CHICKEN"
+			quest_hint.text = "Follow the clucking sounds across the village to catch the runaway chicken!"
+		2: # LANTERN_FOUND
+			quest_title.text = "Follow the Chicken"
+			quest_hint.text = "The chicken is bolting toward the forest path!"
+		3: # CAVE_QUEST
+			quest_title.text = "ENTER THE CAVE"
+			quest_hint.text = "Follow the chicken into the dark cave entrance ahead!"
+		4: # CAVE_NOTE_FOUND
+			quest_title.text = "🔙 GO BACK TO THE OLD MAN"
+			quest_hint.text = "Head back through the forest to the village plaza where the old man was"
+		5: # GAME_OVER
+			quest_title.text = "Quest Complete!"
+			quest_hint.text = "You discovered the secrets of the village!"
+
+func _get_current_target_info() -> Dictionary:
+	var gs = get_node_or_null("/root/GameState")
+	var s: int = gs.current_state if gs else 0
+	match s:
+		0: # START
+			return {"pos": Vector3(3.8, 1.5, 1.2), "icon": "👴", "name": "Old Man"}
+		1: # CHICKEN_QUEST
+			var interactables = get_tree().get_nodes_in_group("interactable")
+			for obj in interactables:
+				if obj.name == "Chicken" or obj.has_method("trigger_alert"):
+					return {"pos": obj.global_position + Vector3(0, 0.8, 0), "icon": "🐔", "name": "Chicken"}
+			return {"pos": Vector3(-3.2, 0.5, -1.8), "icon": "🐔", "name": "Chicken"}
+		2: # LANTERN_FOUND
+			return {"pos": Vector3(3.8, 1.5, 1.2), "icon": "👴", "name": "Old Man"}
+		3: # CAVE_QUEST
+			return {"pos": Vector3(-2.0, 1.5, -84.0), "icon": "⛰️", "name": "The Cave"}
+		4: # CAVE_NOTE_FOUND
+			return {"pos": Vector3(3.8, 1.0, 1.2), "icon": "👴", "name": "Old Man's Spot"}
+		_:
+			return {}
+
+func _update_waypoint() -> void:
+	if not waypoint_marker or not is_instance_valid(camera):
+		return
+	if DisplayServer.get_name() == "headless":
+		return
+
+	var info = _get_current_target_info()
+	if info.is_empty():
+		waypoint_marker.visible = false
+		return
+
+	var target_pos: Vector3 = info["pos"]
+	var dist = global_position.distance_to(target_pos)
+
+	if waypoint_icon:
+		waypoint_icon.text = info["icon"]
+	if waypoint_name:
+		waypoint_name.text = info["name"]
+	if waypoint_dist:
+		waypoint_dist.text = "%dm" % int(dist)
+
+	var gs = get_node_or_null("/root/GameState")
+	if (gs and gs.current_state == gs.State.GAME_OVER) or dist < 2.2:
+		waypoint_marker.visible = false
+		return
+
+	var vp = get_viewport()
+	if not vp:
+		return
+	var vp_size = vp.get_visible_rect().size
+	if vp_size.x <= 0 or vp_size.y <= 0:
+		return
+
+	var screen_pos = camera.unproject_position(target_pos)
+	var is_behind = camera.is_position_behind(target_pos)
+
+	if is_behind:
+		var center = vp_size * 0.5
+		var dir = (screen_pos - center).normalized()
+		if dir.length_squared() < 0.01:
+			dir = Vector2(0, 1)
+		screen_pos = center - dir * min(center.x, center.y) * 0.85
+
+	var margin = 60.0
+	screen_pos.x = clamp(screen_pos.x, margin, vp_size.x - margin)
+	screen_pos.y = clamp(screen_pos.y, margin, vp_size.y - margin)
+
+	waypoint_marker.global_position = screen_pos - waypoint_marker.size * 0.5
+	waypoint_marker.visible = true
+

@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/traditional_indian_house.glb" id="1_model"]
+[ext_resource type="Script" path="res://scripts/traditional_indian_house.gd" id="2_script"]
+
+[sub_resource type="BoxShape3D" id="Shape_HouseBody"]
+size = Vector3(5.6, 3.2, 4.2)
+
+[sub_resource type="BoxShape3D" id="Shape_Plinth"]
+size = Vector3(5.8, 0.45, 6.8)
+
+[sub_resource type="BoxShape3D" id="Shape_Roof"]
+size = Vector3(7.4, 2.5, 7.0)
+
+[node name="TraditionalIndianHouse" type="StaticBody3D" groups=["interactable"]]
+collision_layer = 1
+collision_mask = 3
+script = ExtResource("2_script")
+
+[node name="Model" parent="." instance=ExtResource("1_model")]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, 0, 0)
+
+[node name="HouseBodyCol" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -0.2)
+shape = SubResource("Shape_HouseBody")
+
+[node name="PlinthCol" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0.8)
+shape = SubResource("Shape_Plinth")
+
+[node name="RoofCol" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0.5)
+shape = SubResource("Shape_Roof")
+
+[node name="VerandahLightLeft" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 1.5, 2.4)
+light_color = Color(1, 0.78, 0.35, 1)
+light_energy = 1.6
+omni_range = 6.0
+
+[node name="VerandahLightRight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 1.5, 2.4)
+light_color = Color(1, 0.78, 0.35, 1)
+light_energy = 1.6
+omni_range = 6.0

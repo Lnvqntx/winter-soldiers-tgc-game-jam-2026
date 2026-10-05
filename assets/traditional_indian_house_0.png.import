@@ -2,16 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dy1epplisj1gx"
-path="res://.godot/imported/village_house.png-4fe9ed35d30a60ebdcdf7c56f27f715f.ctex"
+uid="uid://dxfb3crawwbyn"
+path="res://.godot/imported/traditional_indian_house_0.png-621fd9c266182e0ff5e8a3dfcd778267.ctex"
 metadata={
 "vram_texture": false
+}
+generator_parameters={
+"md5": "992d256af70a9bd6d51dc97c8813d920"
 }
 
 [deps]
 
-source_file="res://assets/village_house.png"
-dest_files=["res://.godot/imported/village_house.png-4fe9ed35d30a60ebdcdf7c56f27f715f.ctex"]
+source_file="res://assets/traditional_indian_house_0.png"
+dest_files=["res://.godot/imported/traditional_indian_house_0.png-621fd9c266182e0ff5e8a3dfcd778267.ctex"]
 
 [params]
 
@@ -23,7 +26,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

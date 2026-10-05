@@ -23,16 +23,19 @@ top_radius = 0.05
 bottom_radius = 0.05
 height = 0.65
 
-[sub_resource type="StandardMaterial3D" id="Mat_Dollar"]
-albedo_color = Color(0.22, 0.65, 0.32, 1)
-roughness = 0.4
+[sub_resource type="StandardMaterial3D" id="Mat_Coin"]
+albedo_color = Color(0.96, 0.78, 0.22, 1)
+metallic = 0.8
+roughness = 0.25
 emission_enabled = true
-emission = Color(0.2, 0.5, 0.25, 1)
-emission_energy_multiplier = 0.4
+emission = Color(0.95, 0.75, 0.2, 1)
+emission_energy_multiplier = 0.5
 
-[sub_resource type="BoxMesh" id="Mesh_Dollar"]
-material = SubResource("Mat_Dollar")
-size = Vector3(0.3, 0.02, 0.16)
+[sub_resource type="CylinderMesh" id="Mesh_Coin"]
+material = SubResource("Mat_Coin")
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.03
 
 [sub_resource type="StandardMaterial3D" id="Mat_NotePaper"]
 albedo_color = Color(0.96, 0.94, 0.85, 1)
@@ -113,7 +116,7 @@ mesh = SubResource("Mesh_TableLeg")
 
 [node name="MoneyMesh" type="MeshInstance3D" parent="VisualRoot"]
 transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -0.15, 0.72, 0.05)
-mesh = SubResource("Mesh_Dollar")
+mesh = SubResource("Mesh_Coin")
 
 [node name="NoteMesh" type="MeshInstance3D" parent="VisualRoot"]
 transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0.15, 0.72, -0.05)
@@ -157,7 +160,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_font_sizes/font_size = 32
-text = "TAKE YOUR MONEY NOOB!"
+text = "TAKE YOUR ₹5 NOOB!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -191,14 +194,14 @@ theme_override_constants/separation = 12
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.82, 0.2, 1)
 theme_override_font_sizes/font_size = 26
-text = "★ LENAL: QUEST COMPLETE ★"
+text = "★ LENAL ★"
 horizontal_alignment = 1
 
 [node name="Reward" type="Label" parent="CanvasLayer/VictoryPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.9, 0.4, 1)
 theme_override_font_sizes/font_size = 20
-text = "REWARD: ₹500 ($5)"
+text = "REWARD: ₹5"
 horizontal_alignment = 1
 
 [node name="Thanks" type="Label" parent="CanvasLayer/VictoryPanel/MarginContainer/VBoxContainer"]
@@ -212,7 +215,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.6, 0.65, 1)
 theme_override_font_sizes/font_size = 14
-text = "LENAL — The 2-Hour Indian Village Adventure"
+text = "LENAL — Stylized Indian Comedy Adventure"
 horizontal_alignment = 1
 
 [node name="PlayAgainButton" type="Button" parent="CanvasLayer/VictoryPanel/MarginContainer/VBoxContainer"]

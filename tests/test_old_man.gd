@@ -49,13 +49,15 @@ func _run_old_man_test() -> void:
 	print("[PASS] Dialogue started")
 	
 	var expected_lines = [
-		{"speaker": "OLD MAN", "text": "Beta, I need your help."},
-		{"speaker": "PLAYER", "text": "What happened?"},
-		{"speaker": "OLD MAN", "text": "My chicken is missing."},
+		{"speaker": "OLD MAN", "text": "Arre beta, meri chicken missing hai!"},
+		{"speaker": "PLAYER", "text": "Your chicken?"},
+		{"speaker": "OLD MAN", "text": "Haan bhai, meri chicken. Subah se gayab hai."},
+		{"speaker": "PLAYER", "text": "Okay... where did you last see her?"},
+		{"speaker": "OLD MAN", "text": "Idhar hi thi. Ab pata nahi kidhar bhaag gayi."},
+		{"speaker": "PLAYER", "text": "Okay. I'll find her."},
+		{"speaker": "OLD MAN", "text": "Bas usko dhoondh ke mere paas le aana."},
 		{"speaker": "PLAYER", "text": "That's it?"},
-		{"speaker": "OLD MAN", "text": "No. She stole my lantern."},
-		{"speaker": "PLAYER", "text": "...Your chicken stole your lantern?"},
-		{"speaker": "OLD MAN", "text": "Exactly."}
+		{"speaker": "OLD MAN", "text": "Haan. Simple kaam hai."}
 	]
 	
 	for i in range(expected_lines.size()):
@@ -69,7 +71,7 @@ func _run_old_man_test() -> void:
 	assert(not old_man.is_talking, "Dialogue should be ended")
 	assert(not old_man.dialogue_panel.visible, "Dialogue panel should be hidden")
 	assert(old_man.objective_panel.visible, "Objective panel should be visible")
-	assert(old_man.objective_label.text == "Find the chicken.", "Objective must be 'Find the chicken.'")
+	assert(old_man.objective_label.text == "🐔 FIND THE CHICKEN", "Objective must be '🐔 FIND THE CHICKEN'")
 	print("[PASS] Objective verified: ", old_man.objective_label.text)
 	
 	# Verify subsequent interaction

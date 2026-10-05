@@ -60,7 +60,44 @@ content_margin_top = 2.0
 content_margin_right = 6.0
 content_margin_bottom = 2.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_QuestPanel"]
+bg_color = Color(0.10, 0.08, 0.06, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.72, 0.25, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 6
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Waypoint"]
+bg_color = Color(0.12, 0.09, 0.06, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1.0, 0.82, 0.3, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 6
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+
 [node name="Player" type="CharacterBody3D" groups=["player"]]
+
 collision_layer = 2
 collision_mask = 1
 script = ExtResource("1_script")
@@ -148,7 +185,71 @@ text = "LENAL — Stylized Indian Village Adventure"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="QuestTracker" type="PanelContainer" parent="HUD"]
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 340.0
+offset_bottom = 86.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_QuestPanel")
+
+[node name="VBox" type="VBoxContainer" parent="HUD/QuestTracker"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Header" type="Label" parent="HUD/QuestTracker/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.75, 0.25, 1)
+theme_override_font_sizes/font_size = 11
+text = "📜 CURRENT OBJECTIVE"
+
+[node name="QuestTitle" type="Label" parent="HUD/QuestTracker/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Talk to the Old Man"
+
+[node name="QuestHint" type="Label" parent="HUD/QuestTracker/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.8, 0.72, 1)
+theme_override_font_sizes/font_size = 11
+text = "Find the old man sitting on the charpai near the plaza"
+autowrap_mode = 2
+
+[node name="WaypointMarker" type="PanelContainer" parent="HUD"]
+visible = false
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 220.0
+offset_bottom = 132.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_Waypoint")
+
+[node name="HBox" type="HBoxContainer" parent="HUD/WaypointMarker"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="Label" parent="HUD/WaypointMarker/HBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "⛰️"
+
+[node name="TargetName" type="Label" parent="HUD/WaypointMarker/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "The Cave"
+
+[node name="Distance" type="Label" parent="HUD/WaypointMarker/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "25m"
+
 [node name="ControlsPanel" type="PanelContainer" parent="HUD"]
+
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0

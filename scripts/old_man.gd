@@ -11,26 +11,26 @@ signal dialogue_finished
 @onready var objective_label: Label = $DialogueUI/ObjectivePanel/MarginContainer/HBoxContainer/ObjectiveText
 @onready var visual_root: Node3D = $VisualRoot
 
-# Conversation 1: Chicken missing
+# Conversation 1: Chicken missing (Natural Hinglish)
 var conv_initial: Array = [
-	{"speaker": "OLD MAN", "text": "Beta, I need your help."},
-	{"speaker": "PLAYER", "text": "What happened?"},
-	{"speaker": "OLD MAN", "text": "My chicken is missing."},
+	{"speaker": "OLD MAN", "text": "Arre beta, meri chicken missing hai!"},
+	{"speaker": "PLAYER", "text": "Your chicken?"},
+	{"speaker": "OLD MAN", "text": "Haan bhai, meri chicken. Subah se gayab hai."},
+	{"speaker": "PLAYER", "text": "Okay... where did you last see her?"},
+	{"speaker": "OLD MAN", "text": "Idhar hi thi. Ab pata nahi kidhar bhaag gayi."},
+	{"speaker": "PLAYER", "text": "Okay. I'll find her."},
+	{"speaker": "OLD MAN", "text": "Bas usko dhoondh ke mere paas le aana."},
 	{"speaker": "PLAYER", "text": "That's it?"},
-	{"speaker": "OLD MAN", "text": "No. She stole my lantern."},
-	{"speaker": "PLAYER", "text": "...Your chicken stole your lantern?"},
-	{"speaker": "OLD MAN", "text": "Exactly."}
+	{"speaker": "OLD MAN", "text": "Haan. Simple kaam hai."}
 ]
 
-# Conversation 2: Lantern returned -> Go to cave
+# Conversation 2: Follow up
 var conv_lantern_returned: Array = [
-	{"speaker": "OLD MAN", "text": "Ah. You found it."},
-	{"speaker": "PLAYER", "text": "Your chicken stole it."},
-	{"speaker": "OLD MAN", "text": "Forget that."},
-	{"speaker": "PLAYER", "text": "What now?"},
-	{"speaker": "OLD MAN", "text": "Go to the cave."},
-	{"speaker": "PLAYER", "text": "Why?"},
-	{"speaker": "OLD MAN", "text": "You'll understand."}
+	{"speaker": "OLD MAN", "text": "Arre wah! You found her trail?"},
+	{"speaker": "PLAYER", "text": "She ran towards the forest... into a cave."},
+	{"speaker": "OLD MAN", "text": "Cave? Accha... then go check the cave."},
+	{"speaker": "PLAYER", "text": "Wait, seriously?"},
+	{"speaker": "OLD MAN", "text": "Haan bhai, simple kaam hai. Go to the cave."}
 ]
 
 var active_conversation: Array = []
@@ -101,14 +101,14 @@ func interact(player: Node) -> String:
 			start_conversation(conv_initial)
 			return ""
 		elif GameState.current_state == GameState.State.CHICKEN_QUEST:
-			return "Old Man: 'Go on beta, find that lantern-stealing chicken!'"
+			return "Old Man: 'Bas usko dhoondh ke mere paas le aana. Simple kaam hai.'"
 		elif GameState.current_state == GameState.State.LANTERN_FOUND:
 			start_conversation(conv_lantern_returned)
 			return ""
 		elif GameState.current_state == GameState.State.CAVE_QUEST:
-			return "Old Man: 'What are you waiting for? Go to the cave!'"
+			return "Old Man: 'Chicken cave ke taraf gayi hai, jaldi jaa!'"
 		else:
-			return "Old Man: 'Go on beta, find that lantern-stealing chicken!'"
+			return "Old Man: 'Bas usko dhoondh ke mere paas le aana. Simple kaam hai.'"
 	else:
 		advance_dialogue()
 		return ""
@@ -198,13 +198,13 @@ func end_dialogue() -> void:
 		has_completed_dialogue = true
 		GameState.set_state(GameState.State.CHICKEN_QUEST)
 		if objective_panel and objective_label:
-			objective_label.text = "Find the chicken."
+			objective_label.text = "🐔 FIND THE CHICKEN"
 			objective_panel.visible = true
 	elif active_conversation == conv_lantern_returned:
 		has_completed_cave_dialogue = true
 		GameState.set_state(GameState.State.CAVE_QUEST)
 		if objective_panel and objective_label:
-			objective_label.text = "Go to the cave."
+			objective_label.text = "ENTER THE CAVE"
 			objective_panel.visible = true
 	
 	dialogue_finished.emit()

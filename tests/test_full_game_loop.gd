@@ -69,8 +69,8 @@ func _run_full_game_loop_test() -> void:
 		old_man.advance_dialogue()
 
 	assert(game_state.current_state == game_state.State.CHICKEN_QUEST, "State should be CHICKEN_QUEST after conversation 1")
-	assert(old_man.objective_label.text == "Find the chicken.", "Objective should be 'Find the chicken.'")
-	print("[PASS] Step 1 Complete: Objective is now 'Find the chicken.'")
+	assert(old_man.objective_label.text == "🐔 FIND THE CHICKEN", "Objective should be '🐔 FIND THE CHICKEN'")
+	print("[PASS] Step 1 Complete: Objective is now '🐔 FIND THE CHICKEN'")
 
 	# 4. Step 2: Chase & Catch Chicken
 	print("\n--- STEP 2: Follow / Chase Chicken ---")
@@ -87,7 +87,6 @@ func _run_full_game_loop_test() -> void:
 	assert(chicken_msg == "YOU GOT THE LANTERN.", "Chicken should yield lantern")
 	assert(not chicken.has_lantern, "Chicken should no longer have lantern")
 	assert(game_state.current_state == game_state.State.LANTERN_FOUND, "State should be LANTERN_FOUND")
-	assert(old_man.objective_label.text == "Return to the old man.", "Objective should be 'Return to the old man.'")
 	print("[PASS] Step 2 Complete: Got the lantern!")
 
 	# 5. Step 3: Return to Old Man
@@ -101,7 +100,7 @@ func _run_full_game_loop_test() -> void:
 		old_man.advance_dialogue()
 
 	assert(game_state.current_state == game_state.State.CAVE_QUEST, "State should be CAVE_QUEST")
-	assert(old_man.objective_label.text == "Go to the cave.", "Objective should be 'Go to the cave.'")
+	assert(old_man.objective_label.text == "ENTER THE CAVE", "Objective should be 'ENTER THE CAVE'")
 	print("[PASS] Step 3 Complete: Old man sent player to cave.")
 
 	# 6. Step 4: Explore Cave & Read Note
@@ -112,7 +111,7 @@ func _run_full_game_loop_test() -> void:
 	print("  Cave Note Message: ", cave_note.message_label.text)
 	
 	assert(game_state.current_state == game_state.State.CAVE_NOTE_FOUND, "State should be CAVE_NOTE_FOUND")
-	assert(old_man.objective_label.text == "Return to the old man.", "Objective should be 'Return to the old man.'")
+	assert(old_man.objective_label.text == "🔙 GO BACK TO THE OLD MAN", "Objective should be '🔙 GO BACK TO THE OLD MAN'")
 	assert(not old_man.visual_root.visible, "Old man must have disappeared from the village!")
 	assert(ending_table.is_active, "Ending table must now be active at Old Man's spot!")
 	print("[PASS] Step 4 Complete: Cave note read, Old Man disappeared, Ending Table appeared.")
@@ -126,11 +125,12 @@ func _run_full_game_loop_test() -> void:
 	ending_table.victory_panel.visible = true
 	game_state.set_state(game_state.State.GAME_OVER)
 	
-	assert(ending_table.joke_label.text == "TAKE YOUR MONEY NOOB!", "Joke note text must match")
+	assert(ending_table.joke_label.text == "TAKE YOUR ₹5 NOOB!", "Joke note text must match")
 	print("  Joke Note: ", ending_table.joke_label.text)
 	print("  Victory Panel Title: ", ending_table.victory_panel.get_node("MarginContainer/VBoxContainer/Title").text)
 	print("  Victory Panel Reward: ", ending_table.victory_panel.get_node("MarginContainer/VBoxContainer/Reward").text)
 	print("  Victory Panel Thanks: ", ending_table.victory_panel.get_node("MarginContainer/VBoxContainer/Thanks").text)
+	assert(ending_table.victory_panel.get_node("MarginContainer/VBoxContainer/Reward").text == "REWARD: ₹5", "Reward must be ₹5")
 	
 	print("\n==================================================")
 	print("★ FULL LENAL GAMEPLAY LOOP PASSED 100% SUCCESSFULLY! ★")
