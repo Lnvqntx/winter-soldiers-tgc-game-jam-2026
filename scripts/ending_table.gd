@@ -66,7 +66,7 @@ func get_interact_text() -> String:
 	if not is_active:
 		return ""
 	if not has_interacted:
-		return "Take $5 & Read Note"
+		return "Pick Up ₹5 Coin"
 	return ""
 
 func interact(player: Node) -> String:
@@ -95,9 +95,27 @@ func _start_ending_sequence() -> void:
 
 	SFX.play_dramatic()
 	
-	# Dramatic 1.0 second pause
-	await get_tree().create_timer(1.0).timeout
-	
+	# If in headless test, complete immediately
+	if DisplayServer.get_name() == "headless":
+		if joke_panel:
+			joke_panel.visible = true
+		if victory_panel:
+			victory_panel.visible = true
+		GameState.set_state(GameState.State.GAME_OVER)
+		return
+
+	# Player: "₹5?"
+	if current_player and current_player.has_method("show_monologue"):
+		current_player.show_monologue("PLAYER: \"₹5?\"", 1.6)
+
+	await get_tree().create_timer(1.8).timeout
+
+	# Player: "That's my payment?"
+	if current_player and current_player.has_method("show_monologue"):
+		current_player.show_monologue("PLAYER: \"That's my payment?\"", 1.8)
+
+	await get_tree().create_timer(1.8).timeout
+
 	# Reveal the joke note
 	if joke_panel:
 		joke_panel.visible = true
@@ -105,9 +123,19 @@ func _start_ending_sequence() -> void:
 	SFX.play_ending()
 	GameState.set_state(GameState.State.GAME_OVER)
 	
-	# Wait 2.0 seconds then show comic victory screen
-	await get_tree().create_timer(2.0).timeout
-	
+	await get_tree().create_timer(1.8).timeout
+
+	# Player: "At least give me ₹10, bro."
+	if current_player and current_player.has_method("show_monologue"):
+		current_player.show_monologue("PLAYER: \"At least give me ₹10, bro.\"", 2.2)
+
+	await get_tree().create_timer(2.4).timeout
+
+	# Final chicken sound: "BAWK!"
+	SFX.play_chicken()
+
+	await get_tree().create_timer(0.6).timeout
+
 	if victory_panel:
 		victory_panel.visible = true
 	

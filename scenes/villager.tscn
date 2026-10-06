@@ -1,0 +1,252 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="Script" path="res://scripts/villager.gd" id="1_script"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_col"]
+radius = 0.45
+height = 1.75
+
+[sub_resource type="StandardMaterial3D" id="Mat_Skin"]
+albedo_color = Color(0.72, 0.50, 0.36, 1)
+roughness = 0.65
+
+[sub_resource type="SphereMesh" id="Mesh_Head"]
+material = SubResource("Mat_Skin")
+radius = 0.17
+height = 0.32
+
+[sub_resource type="StandardMaterial3D" id="Mat_Black"]
+albedo_color = Color(0.1, 0.08, 0.08, 1)
+roughness = 0.5
+
+[sub_resource type="SphereMesh" id="Mesh_Eye"]
+material = SubResource("Mat_Black")
+radius = 0.02
+height = 0.04
+
+[sub_resource type="BoxMesh" id="Mesh_Mustache"]
+material = SubResource("Mat_Black")
+size = Vector3(0.18, 0.05, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Turban"]
+albedo_color = Color(0.88, 0.35, 0.18, 1)
+roughness = 0.85
+
+[sub_resource type="SphereMesh" id="Mesh_Turban"]
+material = SubResource("Mat_Turban")
+radius = 0.2
+height = 0.22
+
+[sub_resource type="StandardMaterial3D" id="Mat_KurtaBlue"]
+albedo_color = Color(0.25, 0.55, 0.75, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_KurtaTorso"]
+material = SubResource("Mat_KurtaBlue")
+size = Vector3(0.44, 0.56, 0.28)
+
+[sub_resource type="BoxMesh" id="Mesh_Sleeve"]
+material = SubResource("Mat_KurtaBlue")
+size = Vector3(0.14, 0.20, 0.18)
+
+[sub_resource type="CylinderMesh" id="Mesh_Arm"]
+material = SubResource("Mat_Skin")
+top_radius = 0.05
+bottom_radius = 0.045
+height = 0.34
+
+[sub_resource type="SphereMesh" id="Mesh_Hand"]
+material = SubResource("Mat_Skin")
+radius = 0.05
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="Mat_Glass"]
+albedo_color = Color(0.85, 0.95, 1.0, 0.85)
+roughness = 0.2
+
+[sub_resource type="CylinderMesh" id="Mesh_ChaiGlass"]
+material = SubResource("Mat_Glass")
+top_radius = 0.04
+bottom_radius = 0.03
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="Mat_Vest"]
+albedo_color = Color(0.85, 0.65, 0.15, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_Vest"]
+material = SubResource("Mat_Vest")
+size = Vector3(0.46, 0.42, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_DhotiWhite"]
+albedo_color = Color(0.92, 0.90, 0.85, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="Mesh_Dhoti"]
+material = SubResource("Mat_DhotiWhite")
+top_radius = 0.24
+bottom_radius = 0.20
+height = 0.72
+
+[sub_resource type="StandardMaterial3D" id="Mat_Leather"]
+albedo_color = Color(0.35, 0.22, 0.12, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="Mesh_Foot"]
+material = SubResource("Mat_Leather")
+size = Vector3(0.12, 0.08, 0.22)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Dialogue"]
+bg_color = Color(0.99, 0.98, 0.95, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.1, 0.08, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Speaker"]
+bg_color = Color(0.24, 0.58, 0.42, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+
+[node name="Villager" type="CharacterBody3D" groups=["interactable"]]
+collision_layer = 1
+collision_mask = 3
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0)
+shape = SubResource("CapsuleShape3D_col")
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="FootL" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, 0.04, 0.04)
+mesh = SubResource("Mesh_Foot")
+
+[node name="FootR" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, 0.04, 0.04)
+mesh = SubResource("Mesh_Foot")
+
+[node name="Legs" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("Mesh_Dhoti")
+
+[node name="Torso" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("Mesh_KurtaTorso")
+
+[node name="Vest" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10, 0)
+mesh = SubResource("Mesh_Vest")
+
+[node name="SleeveL" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26, 1.20, 0)
+mesh = SubResource("Mesh_Sleeve")
+
+[node name="ArmL" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -0.28, 0.98, 0.05)
+mesh = SubResource("Mesh_Arm")
+
+[node name="HandL" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28, 0.80, 0.08)
+mesh = SubResource("Mesh_Hand")
+
+[node name="SleeveR" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26, 1.20, 0)
+mesh = SubResource("Mesh_Sleeve")
+
+[node name="ArmR" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.28, 0.98, 0.06)
+mesh = SubResource("Mesh_Arm")
+
+[node name="HandR" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.82, 0.12)
+mesh = SubResource("Mesh_Hand")
+
+[node name="ChaiGlass" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.88, 0.12)
+mesh = SubResource("Mesh_ChaiGlass")
+
+[node name="Head" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48, 0)
+mesh = SubResource("Mesh_Head")
+
+[node name="EyeL" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 1.50, 0.15)
+mesh = SubResource("Mesh_Eye")
+
+[node name="EyeR" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 1.50, 0.15)
+mesh = SubResource("Mesh_Eye")
+
+[node name="Mustache" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, 0.16)
+mesh = SubResource("Mesh_Mustache")
+
+[node name="Turban" type="MeshInstance3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.60, 0)
+mesh = SubResource("Mesh_Turban")
+
+[node name="DialogueUI" type="CanvasLayer" parent="."]
+
+[node name="DialoguePanel" type="PanelContainer" parent="DialogueUI"]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -310.0
+offset_top = -210.0
+offset_right = 310.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_Dialogue")
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogueUI/DialoguePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogueUI/DialoguePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SpeakerLabel" type="Label" parent="DialogueUI/DialoguePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_Speaker")
+text = "VILLAGER"
+
+[node name="ContentLabel" type="Label" parent="DialogueUI/DialoguePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.12, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "Old man? Kaunsa old man?"
+autowrap_mode = 2
+
+[node name="PromptLabel" type="Label" parent="DialogueUI/DialoguePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.5, 0.42, 1)
+theme_override_font_sizes/font_size = 12
+text = "[ E / Space / Click ] Continue ▸"
+horizontal_alignment = 2

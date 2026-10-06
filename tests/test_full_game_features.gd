@@ -107,7 +107,7 @@ func _run_test() -> void:
 	
 	# Test Zone Music Transition
 	print("\n--- 4. Testing Village -> Cave Music Transition ---")
-	player.global_position = Vector3(0.5, 0.1, -25.0) # Inside cave
+	player.global_position = Vector3(-18.0, 1.0, -84.0) # Inside mountain cave
 	main_inst._process(0.1)
 	assert(main_inst.is_in_cave, "Should detect player inside cave")
 	assert(sfx_node._current_music_track == "music_cave", "Music should switch to cave music")

@@ -2,16 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnh6wltrub2m3"
-path="res://.godot/imported/South Indian Village House Asset.png-fd52d5199269bdbcf37cff26fb23dd70.ctex"
+uid="uid://cc2qyacbdsf7o"
+path="res://.godot/imported/indian_village_environment_3.png-e1533990c5f23691c4e4712b5015a445.ctex"
 metadata={
 "vram_texture": false
+}
+generator_parameters={
+"md5": "8c2999c547b60fe16918defb9f288fc2"
 }
 
 [deps]
 
-source_file="res://assets/South Indian Village House Asset.png"
-dest_files=["res://.godot/imported/South Indian Village House Asset.png-fd52d5199269bdbcf37cff26fb23dd70.ctex"]
+source_file="res://assets/indian_village_environment_3.png"
+dest_files=["res://.godot/imported/indian_village_environment_3.png-e1533990c5f23691c4e4712b5015a445.ctex"]
 
 [params]
 
@@ -23,7 +26,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

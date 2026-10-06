@@ -24,14 +24,14 @@ func set_state(new_state: State) -> void:
 			State.START:
 				update_objective("Talk to the Old Man.")
 			State.CHICKEN_QUEST:
-				update_objective("Find the chicken.")
+				update_objective("🐔 FIND THE CHICKEN")
 			State.LANTERN_FOUND:
 				has_lantern = true
-				update_objective("Return to the old man.")
+				update_objective("Follow the Chicken toward the Forest!")
 			State.CAVE_QUEST:
-				update_objective("Go to the cave.")
+				update_objective("ENTER THE CAVE")
 			State.CAVE_NOTE_FOUND:
-				update_objective("Return to the old man.")
+				update_objective("🔙 GO BACK TO THE OLD MAN")
 			State.GAME_OVER:
 				update_objective("Quest Complete!")
 
