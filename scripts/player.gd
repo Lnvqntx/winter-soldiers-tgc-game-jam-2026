@@ -19,6 +19,7 @@ enum State {
 @export var jump_velocity: float = 7.5
 @export var rotation_speed: float = 12.0
 @export var can_move: bool = true
+var move_speed: float = 3.5
 
 @export_group("Camera Settings")
 @export var camera_distance: float = 5.5
@@ -105,6 +106,7 @@ func _ready() -> void:
 
 	floor_snap_length = 0.4
 	floor_max_angle = deg_to_rad(50.0)
+	floor_constant_speed = true
 
 	# Start initial animation
 	_play_anim(anim_idle, 0.0)

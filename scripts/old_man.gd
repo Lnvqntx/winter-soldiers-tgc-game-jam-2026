@@ -48,7 +48,6 @@ func _ready() -> void:
 	conversation = conv_initial
 	if dialogue_panel:
 		dialogue_panel.visible = false
-		default_panel_y = dialogue_panel.position.y
 	if objective_panel:
 		objective_panel.visible = false
 		objective_panel.pivot_offset = Vector2(140, 24)
@@ -146,10 +145,11 @@ func start_conversation(conv: Array) -> void:
 	if dialogue_panel:
 		dialogue_panel.visible = true
 		dialogue_panel.modulate.a = 0.0
-		dialogue_panel.position.y = default_panel_y + 15.0
+		dialogue_panel.pivot_offset = Vector2(240, 50)
+		dialogue_panel.scale = Vector2(0.96, 0.96)
 		var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		tween.tween_property(dialogue_panel, "modulate:a", 1.0, 0.22)
-		tween.tween_property(dialogue_panel, "position:y", default_panel_y, 0.22)
+		tween.tween_property(dialogue_panel, "modulate:a", 1.0, 0.18)
+		tween.tween_property(dialogue_panel, "scale", Vector2.ONE, 0.18)
 		
 	_display_current_line()
 
@@ -168,19 +168,22 @@ func _display_current_line() -> void:
 	var item = active_conversation[current_line_idx]
 	if speaker_label:
 		speaker_label.text = item["speaker"]
-		if item["speaker"] == "OLD MAN":
-			speaker_label.add_theme_color_override("font_color", Color(0.12, 0.1, 0.08, 1))
-			var sb = speaker_label.get_theme_stylebox("normal")
-			if sb is StyleBoxFlat:
-				sb.bg_color = Color(0.96, 0.72, 0.16, 1) # Warm Indian gold
-		else:
-			speaker_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
-			var sb = speaker_label.get_theme_stylebox("normal")
-			if sb is StyleBoxFlat:
-				sb.bg_color = Color(0.20, 0.45, 0.68, 1) # Comic teal blue
+		var sb = speaker_label.get_theme_stylebox("normal")
+		if sb is StyleBoxFlat:
+			sb = sb.duplicate()
+			if item["speaker"] == "OLD MAN":
+				speaker_label.add_theme_color_override("font_color", Color(0.12, 0.08, 0.04, 1))
+				sb.bg_color = Color(0.95, 0.72, 0.18, 1) # Warm Gold
+			else:
+				speaker_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+				sb.bg_color = Color(0.18, 0.52, 0.82, 1) # Hero Blue
+			speaker_label.add_theme_stylebox_override("normal", sb)
 	
 	if content_label:
 		content_label.text = item["text"]
+		content_label.modulate.a = 0.35
+		var text_tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		text_tween.tween_property(content_label, "modulate:a", 1.0, 0.12)
 	
 	if prompt_label:
 		prompt_label.text = "[ E / Space / Click ] Continue ▸"
