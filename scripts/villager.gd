@@ -56,7 +56,6 @@ func _ready() -> void:
 	add_to_group("interactable")
 	if dialogue_panel:
 		dialogue_panel.visible = false
-		default_panel_y = dialogue_panel.position.y
 
 func _process(_delta: float) -> void:
 	if visual_root and visual_root.visible:
@@ -115,10 +114,11 @@ func start_conversation(conv: Array) -> void:
 	if dialogue_panel:
 		dialogue_panel.visible = true
 		dialogue_panel.modulate.a = 0.0
-		dialogue_panel.position.y = default_panel_y + 15.0
+		dialogue_panel.pivot_offset = Vector2(240, 50)
+		dialogue_panel.scale = Vector2(0.96, 0.96)
 		var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		tween.tween_property(dialogue_panel, "modulate:a", 1.0, 0.22)
-		tween.tween_property(dialogue_panel, "position:y", default_panel_y, 0.22)
+		tween.tween_property(dialogue_panel, "modulate:a", 1.0, 0.18)
+		tween.tween_property(dialogue_panel, "scale", Vector2.ONE, 0.18)
 		
 	_display_current_line()
 
@@ -137,19 +137,22 @@ func _display_current_line() -> void:
 	var item = active_conversation[current_line_idx]
 	if speaker_label:
 		speaker_label.text = item["speaker"]
-		if item["speaker"] == "VILLAGER":
-			speaker_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
-			var sb = speaker_label.get_theme_stylebox("normal")
-			if sb is StyleBoxFlat:
-				sb.bg_color = Color(0.24, 0.58, 0.42, 1) # Green chai-wala badge
-		else:
-			speaker_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
-			var sb = speaker_label.get_theme_stylebox("normal")
-			if sb is StyleBoxFlat:
-				sb.bg_color = Color(0.20, 0.45, 0.68, 1) # Blue player badge
+		var sb = speaker_label.get_theme_stylebox("normal")
+		if sb is StyleBoxFlat:
+			sb = sb.duplicate()
+			if item["speaker"] == "VILLAGER":
+				speaker_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+				sb.bg_color = Color(0.18, 0.62, 0.44, 1) # Emerald badge
+			else:
+				speaker_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+				sb.bg_color = Color(0.18, 0.52, 0.82, 1) # Hero Blue badge
+			speaker_label.add_theme_stylebox_override("normal", sb)
 	
 	if content_label:
 		content_label.text = item["text"]
+		content_label.modulate.a = 0.35
+		var text_tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		text_tween.tween_property(content_label, "modulate:a", 1.0, 0.12)
 	
 	if prompt_label:
 		prompt_label.text = "[ E / Space / Click ] Continue ▸"

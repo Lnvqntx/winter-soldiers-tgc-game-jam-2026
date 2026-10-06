@@ -154,14 +154,15 @@ func _play_chosen_one_cutscene() -> void:
 	if DisplayServer.get_name() == "headless":
 		return
 		
-	if player and "can_move" in player:
-		player.can_move = false
-		player.move_speed = 0.0
+	if player:
+		if "can_move" in player:
+			player.can_move = false
+		player.velocity = Vector3.ZERO
 
 	# Black bars slide in
 	var tween = create_tween().set_parallel(true)
-	tween.tween_property(bar_top, "offset_bottom", 70.0, 0.4)
-	tween.tween_property(bar_bottom, "offset_top", -70.0, 0.4)
+	tween.tween_property(bar_top, "offset_bottom", 70.0, 0.35)
+	tween.tween_property(bar_bottom, "offset_top", -70.0, 0.35)
 	
 	# Epic dramatic sting & banner
 	SFX.play_dramatic()
@@ -170,25 +171,26 @@ func _play_chosen_one_cutscene() -> void:
 	banner_panel.visible = true
 	banner_panel.modulate.a = 0.0
 	var panel_tween = create_tween()
-	panel_tween.tween_property(banner_panel, "modulate:a", 1.0, 0.4)
+	panel_tween.tween_property(banner_panel, "modulate:a", 1.0, 0.35)
 
-	# 2.8s epic fantasy contrast
-	await get_tree().create_timer(2.8).timeout
+	# Dramatic reveal
+	await get_tree().create_timer(1.8).timeout
 	
 	# Reveal chicken
 	SFX.play_chicken()
 	banner_subtext.text = "🐔\n(The Chicken.)"
 
-	await get_tree().create_timer(2.2).timeout
+	await get_tree().create_timer(1.6).timeout
 
 	# Slide out bars and banner
 	var out_tween = create_tween().set_parallel(true)
-	out_tween.tween_property(bar_top, "offset_bottom", 0.0, 0.3)
-	out_tween.tween_property(bar_bottom, "offset_top", 0.0, 0.3)
-	out_tween.tween_property(banner_panel, "modulate:a", 0.0, 0.3)
+	out_tween.tween_property(bar_top, "offset_bottom", 0.0, 0.25)
+	out_tween.tween_property(bar_bottom, "offset_top", 0.0, 0.25)
+	out_tween.tween_property(banner_panel, "modulate:a", 0.0, 0.25)
 	await out_tween.finished
 	banner_panel.visible = false
 
+	# Always restore player control immediately
 	if player and "can_move" in player:
 		player.can_move = true
 
